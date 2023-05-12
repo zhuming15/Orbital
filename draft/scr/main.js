@@ -26,6 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
         createAccountForm.classList.add("form--hidden");
         loginForm.classList.remove("form--hidden");
     });
+
+    loginForm.addEventListener("submit", e => {
+        e.preventDefault();
+
+        // Perform AJAX/Fetch login
+
+        setFormMessage(loginForm, "error", "Invalid username/password");
+    });
+
     document.querySelectorAll(".form__input").forEach(inputElement => {
         inputElement.addEventListener("blur", e => {
             isUsername = (e.target.id === "signupUsername");
