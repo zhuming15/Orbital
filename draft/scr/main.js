@@ -26,4 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
         createAccountForm.classList.add("form--hidden");
         loginForm.classList.remove("form--hidden");
     });
+    document.querySelectorAll(".form__input").forEach(inputElement => {
+        inputElement.addEventListener("blur", e => {
+            isUsername = (e.target.id === "signupUsername");
+            isNotEnoughChar = (e.target.value.length < 10);
+            if (isUsername && isNotEnoughChar) {
+                setInputError(inputElement, "Username must be at least 10 characters in legnth");
+            }
+        });
+    });
 });
