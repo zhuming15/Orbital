@@ -11,6 +11,11 @@ function setInputError(inputElement, message) {
     inputElement.parentElement.querySelector(".form__input-error-message").textContent = message;
 }
 
+function clearInputError(inputElement) {
+    inputElement.classList.remove("form__input--error");
+    inputElement.parentElement.querySelector(".form__input-error-message").textContent = "";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.querySelector("#login");
     const createAccountForm = document.querySelector("#createAccount");
