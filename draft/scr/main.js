@@ -48,5 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 setInputError(inputElement, "Username must be at least 10 characters in legnth");
             }
         });
+
+        inputElement.addEventListener("input", e => {
+            clearInputError(inputElement);
+        });
     });
 });
