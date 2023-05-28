@@ -9,11 +9,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
-  const handleInvalidSubmit = (event) => {
-    event.preventDefault();
-    console.log("Invalid login details");
-  };
-
   const renderInvalidLoginMessage = () => {
     return <p>Invalid login details</p>;
   };
