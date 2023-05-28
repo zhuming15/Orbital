@@ -21,6 +21,9 @@ const addNewUser = (email, username, password) => {
 };
 
 const checkLoginDetails = (email, password, username) => {
+  if (email === "" || password === "" || username === "") {
+    return false;
+  }
   for (let i = 0; i < storage.length; i++) {
     if (
       storage[i].email === email &&
@@ -34,6 +37,9 @@ const checkLoginDetails = (email, password, username) => {
 };
 
 const checkSignupDetails = (email, password, username) => {
+  if (email === "" || password === "" || username === "") {
+    return false;
+  }
   for (let i = 0; i < storage.length; i++) {
     if (storage[i].email === email || storage[i].username === username) {
       return false;
@@ -43,6 +49,9 @@ const checkSignupDetails = (email, password, username) => {
 };
 
 const checkForgotPasswordDetails = (email) => {
+  if (email === "") {
+    return false;
+  }
   for (let i = 0; i < storage.length; i++) {
     if (storage[i].email === email) {
       return true;
