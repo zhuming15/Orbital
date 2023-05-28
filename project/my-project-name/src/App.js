@@ -7,6 +7,10 @@ import NotFound from "./components/NotFound";
 import Posts from "./components/Posts";
 import UserProfile from "./components/UserProfile.js";
 import Setting from "./components/Setting.js";
+import Footer from "./components/Footer";
+import About from "./components/About";
+import Help from "./components/Help";
+import Create from "./components/Create";
 
 import "./Style/home.css";
 import "./Style/forgot-password.css";
@@ -29,7 +33,11 @@ const App = () => {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/*" element={<NotFound />} />
         <Route path="/settings" element={<Setting />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/create" element={<Create />} />
       </Routes>
+      <Footer />
     </div>
   );
 };
