@@ -15,8 +15,8 @@ const NavigationBar = () => {
         <button className="logo-button" onClick={handleBackToHome}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
+            width="20"
+            height="20"
             fill="currentColor"
             class="bi bi-pinterest"
             viewBox="0 0 16 16"
@@ -30,6 +30,9 @@ const NavigationBar = () => {
       </div>
       <div className="nav-bar-links">
         <Link to="/settings">Settings</Link>
+      </div>
+      <div className="nav-bar-links">
+        <Link to="/create">Create Your Post</Link>
       </div>
       <div className="search-bar">
         <input type="text" placeholder="Search" />
