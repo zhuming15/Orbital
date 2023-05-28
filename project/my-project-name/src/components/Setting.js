@@ -139,6 +139,11 @@ const UserSettings = () => {
           <h2>Settings</h2>
           <ul>
             <li>
+              <button onClick={() => handlePageChange("editProfile")}>
+                Edit Profile
+              </button>
+            </li>
+            <li>
               <button onClick={() => handlePageChange("changeEmail")}>
                 Change Email
               </button>
