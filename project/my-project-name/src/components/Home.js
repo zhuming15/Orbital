@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavigationBar from "./NavigationBar";
+import Posts from "./Posts";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -23,16 +24,24 @@ const Home = () => {
   return (
     <div>
       <NavigationBar />
-      <h1>Welcome to the Home Page</h1>
-      <p>You can add your own content and components here.</p>
+      <h1>Welcome to the Pinterest Clone Home Page</h1>
 
-      <h2>Posts:</h2>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
+      <div className="container">
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
         </div>
-      ))}
+      </div>
     </div>
   );
 };
