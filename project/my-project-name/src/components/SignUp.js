@@ -37,8 +37,8 @@ const SignUp = () => {
     <div className="my-container">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
+        width="50"
+        height="50"
         fill="currentColor"
         class="bi bi-pinterest"
         viewBox="0 0 16 16"
