@@ -135,33 +135,37 @@ const UserSettings = () => {
       <NavigationBar />
 
       {currentPage === "settings" && (
-        <div>
-          <h2>Settings</h2>
-          <ul>
-            <li>
-              <button onClick={() => handlePageChange("editProfile")}>
-                Edit Profile
-              </button>
-            </li>
-            <li>
-              <button onClick={() => handlePageChange("changeEmail")}>
-                Change Email
-              </button>
-            </li>
-            <li>
-              <button onClick={() => handlePageChange("changePassword")}>
-                Change Password
-              </button>
-            </li>
-            <li>
-              <button onClick={() => handlePageChange("deleteAccount")}>
-                Delete Account
-              </button>
-            </li>
-            <li>
-              <button onClick={handleLogout}>Logout</button>
-            </li>
-          </ul>
+        <div className="container">
+          <div clsasName="container">
+            <h2>Settings</h2>
+          </div>
+          <div className="container">
+            <ul>
+              <li>
+                <button onClick={() => handlePageChange("editProfile")}>
+                  Edit Profile
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handlePageChange("changeEmail")}>
+                  Change Email
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handlePageChange("changePassword")}>
+                  Change Password
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handlePageChange("deleteAccount")}>
+                  Delete Account
+                </button>
+              </li>
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
 
