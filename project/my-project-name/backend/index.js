@@ -52,6 +52,19 @@ app.post('/api/delete-account', (req, res) => {
   });
 });
 
+// Route for get email
+app.post('/api/get-email', (req, res) => {
+  const email = req.body.email;
+  const query = `SELECT * FROM users WHERE email = ?`;
+
+  planetscale.query(query, email, (err, result) => {
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: 'Invalid Email' });
+    } 
+    return res.status(200).json({ message: 'Accouont Exist' });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });

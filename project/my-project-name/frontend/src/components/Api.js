@@ -30,8 +30,18 @@ const deleteAccount = async (email, password) => {
     }
 };
 
+const forgotPasswordDetails = async (email) => {
+  try {
+     const resp = await axios.get(`http://localhost:3002/api/delete-account`, { email: email });
+     return true;
+  } catch (err) {
+      return false;
+    }
+};
+
 export {
     addNewUser,
     checkLoginDetails,
     deleteAccount,
+    forgotPasswordDetails,
   };
