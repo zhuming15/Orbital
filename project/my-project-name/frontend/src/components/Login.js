@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { checkLoginDetails } from "./Storage";
-import axios from 'axios';
+import axios from "axios";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   const renderInvalidLoginMessage = () => {
@@ -21,10 +20,13 @@ const Login = () => {
     console.log("Submitting", email, password);
     console.log("Passing information to backend API");
     // const isValidDetails = checkLoginDetails(email, password, username);
-    const resp = await axios.get(`http://localhost:3002/api/login/${email}`)
-      .then( response  => { return response.data[0].password_hash; });  
+    const resp = await axios
+      .get(`http://localhost:3002/api/login/${email}`)
+      .then((response) => {
+        return response.data[0].password_hash;
+      });
 
-  // Result from backedn API
+    // Result from backedn API
     if (resp === password) {
       console.log("Login successful");
       return navigate("/");
@@ -33,7 +35,6 @@ const Login = () => {
       renderInvalidLoginMessage();
       return;
     }
-    
   };
 
   return (
