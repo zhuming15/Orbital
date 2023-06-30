@@ -20,7 +20,7 @@ const SignUp = () => {
 
     // Perform signup logic here, such as sending the data to an API endpoint
     console.log("Signup form submitted", email, password);
-    const isValidDetails = axios.post('http://localhost:3002/api/signup', { email: email, username: username, password: password })
+    const isValidDetails = axios.post('http://localhost:3002/api/signup', { email: email, username: username, password: password });
 
     if (!isValidDetails) {
       console.log("Signup failed");
