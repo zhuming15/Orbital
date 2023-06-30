@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { checkForgotPasswordDetails } from "./Storage";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -18,7 +17,7 @@ const ForgotPassword = () => {
     event.preventDefault();
 
     // Perform reset password logic here, such as sending a reset email to the provided email address
-    const isValidEmail = checkForgotPasswordDetails(email);
+    // const isValidEmail = checkForgotPasswordDetails(email);
 
     if (isValidEmail) {
       console.log("Reset email sent");
