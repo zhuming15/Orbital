@@ -23,17 +23,16 @@ planetscale.connect((err) => {
   const createTablesQuery = `
     -- Create User table
     CREATE TABLE IF NOT EXISTS users (
-      email VARCHAR(255) UNIQUE PRIMARY KEY,
-      username VARCHAR(255) UNIQUE,
+      username VARCHAR(255) UNIQUE PRIMARY KEY,
+      email VARCHAR(255) UNIQUE,
       password TEXT
     );
 
     CREATE TABLE IF NOT EXISTS profilePicture (
       -- Create Profile picture
-      id INT AUTO_INCREMENT PRIMARY KEY,  
-      picture_URL Text, 
-      created_by VARCHAR(255) UNIQUE,
-      KEY users_email_idx (created_by)
+      created_by VARCHAR(255) UNIQUE PRIMARY KEY,  
+      picture_name Text, 
+      KEY users_username_idx (created_by)
      );
   `;
 

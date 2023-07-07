@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+const url = 'http://localhost:3002';
+
 // create new account
 const addNewUser = async (email, username, password) => {
   try {
-    const resp = await axios.post('http://localhost:3002/api/signup', { email: email, username: username, password: password });
+    const resp = await axios.post(url + '/api/signup', { email: email, username: username, password: password });
     return true;
   } catch (err) {
     return false;
@@ -13,7 +15,7 @@ const addNewUser = async (email, username, password) => {
 // login
 const checkLoginDetails = async (email, password) => {
   try { 
-    const resp = await axios.get(`http://localhost:3002/api/login`, { email: email, password: password });
+    const resp = await axios.get(url + `/api/login`, { email: email, password: password });
     return true;
   } catch (err) {
     return false;
@@ -23,7 +25,7 @@ const checkLoginDetails = async (email, password) => {
 // delete account
 const deleteAccount = async (email, password) => {
   try {
-     const resp = await axios.get(`http://localhost:3002/api/delete-account`, { email: email, password: password });
+     const resp = await axios.get(url + `/api/delete-account`, { email: email, password: password });
      return true;
   } catch (err) {
       return false;
@@ -32,7 +34,7 @@ const deleteAccount = async (email, password) => {
 
 const forgotPasswordDetails = async (email) => {
   try {
-     const resp = await axios.get(`http://localhost:3002/api/get-email`, { email: email });
+     const resp = await axios.get(url + `/api/get-email`, { email: email });
      return true;
   } catch (err) {
       return false;
