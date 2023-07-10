@@ -64,7 +64,7 @@ app.route(`api/follow/:username1/:username2`)
   
 
 // Route to get following numbers
-app.get('/api/following:username', (req, res) => {
+app.get('/api/following/:username', (req, res) => {
     const username = req.params.username;
 
     const following = username + 'following';

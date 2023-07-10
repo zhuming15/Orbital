@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 
-app.route(`api/profile-picture/:email/:username/:password`)
+app.route(`api/user/:email/:username/:password`)
 
   // Route for creating the user
   .post( (req, res) => {
@@ -16,7 +16,7 @@ app.route(`api/profile-picture/:email/:username/:password`)
     const username = req.params.username;
     const password = req.params.password;
     
-    const query = `INSERT INTO users (email, username, password_hash) VALUES (?,?,?)`;
+    const query = `INSERT INTO users (email, username, password) VALUES (?,?,?)`;
 
     planetscale.query(query, [email, username, password], (err, result) => {
       if (err) {
@@ -33,7 +33,7 @@ app.route(`api/profile-picture/:email/:username/:password`)
         likes INT
       )`;
 
-    planetscale.query(createPostTablesQuery, [], (err, result) => {
+    planetscale.query(createPostTablesQuery, (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Error creating post table' });
       }
@@ -46,7 +46,7 @@ app.route(`api/profile-picture/:email/:username/:password`)
         following_username VARCHAR(255) UNIQUE,
       )`;
 
-    planetscale.query(createFollowingTablesQuery, [], (err, result) => {
+    planetscale.query(createFollowingTablesQuery, (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Error creating following table' });
       }
@@ -59,7 +59,7 @@ app.route(`api/profile-picture/:email/:username/:password`)
         follower_username VARCHAR(255) UNIQUE,
       )`;
 
-    planetscale.query(createFollowerTablesQuery, [], (err, result) => {
+    planetscale.query(createFollowerTablesQuery, (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Error creating followers table' });
       }
@@ -103,7 +103,7 @@ app.get('/api/get-email/:email', (req, res) => {
   const query = `SELECT * FROM users WHERE email = ?`;
 
   planetscale.query(query, email, (err, result) => {
-    if (!data || data.length === 0) {
+    if (!result || result.length === 0) {
       return res.status(404).json({ error: 'Invalid Email' });
     } 
     return res.status(200).json({ message: 'Accouont Exist' });
