@@ -7,63 +7,65 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.route(`api/follow/:username1/:username2`)
 
-
-// Route for following another user
-app.post('/api/follow', (req, res) => {
-    const username1 = req.body.username;
-    const username2 = req.body.username;
+  // Route for following another user
+  .post( (req, res) => {
+      const username1 = req.params.username;
+      const username2 = req.params.username;
+      
+      const following = username1 + 'following';
+      const followQuery = `INSERT INTO ${following} (following_username) VALUES (?)`;
     
-    const following = username1 + 'following';
-    const followQuery = `INSERT INTO ${following} (following_username) VALUES (?)`;
-  
-    planetscale.query(followQuery, [username2], (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: 'Error following' });
-      }
-    });
-  
-    const followers = username2 + 'followers';
-    const followedQuery = `INSERT INTO ${followers} (follower_username) VALUES (?)`;
-  
-    planetscale.query(followedQuery, [username1], (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: 'Error following' });
-      }
-    });
-  
-    return res.status(200).json({ message: 'following successful' });
-});
-  
-// Route for unfollowing another user
-app.post('/api/unfollow', (req, res) => {
-    const username1 = req.body.username1;
-    const username2 = req.body.username2;
-
-    const following = username1 + 'following';
-    const followQuery = `DELETE FROM ${following} WHERE following_username = ?`;
-
-    planetscale.query(followQuery, [username2], (err, result) => {
+      planetscale.query(followQuery, [username2], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Error unfollowing' });
+          return res.status(500).json({ error: 'Error following' });
         }
-    });
-
-    const followers = username2 + 'followers';
-    const followedQuery = `DELETE FROM ${followers} WHERE follower_username = ?`;
-
-    planetscale.query(followedQuery, [username1], (err, result) => {
+      });
+    
+      const followers = username2 + 'followers';
+      const followedQuery = `INSERT INTO ${followers} (follower_username) VALUES (?)`;
+    
+      planetscale.query(followedQuery, [username1], (err, result) => {
         if (err) {
-            return res.status(500).json({ error: 'Error unfollowing' });
+          return res.status(500).json({ error: 'Error following' });
         }
-    });
+      });
+    
+      return res.status(200).json({ message: 'following successful' });
+  })
+    
+  // Route for unfollowing another user
+  .delete( (req, res) => {
+      const username1 = req.params.username1;
+      const username2 = req.params.username2;
 
-    return res.status(200).json({ message: 'unfollowing successfully' });
-});
+      const following = username1 + 'following';
+      const followQuery = `DELETE FROM ${following} WHERE following_username = ?`;
+
+      planetscale.query(followQuery, [username2], (err, result) => {
+          if (err) {
+              return res.status(500).json({ error: 'Error unfollowing' });
+          }
+      });
+
+      const followers = username2 + 'followers';
+      const followedQuery = `DELETE FROM ${followers} WHERE follower_username = ?`;
+
+      planetscale.query(followedQuery, [username1], (err, result) => {
+          if (err) {
+              return res.status(500).json({ error: 'Error unfollowing' });
+          }
+      });
+
+      return res.status(200).json({ message: 'unfollowing successfully' });
+  })
+;
   
+
 // Route to get following numbers
-app.post('/api/following-number', (req, res) => {
-    const username = req.body.username;
+app.get('/api/following:username', (req, res) => {
+    const username = req.params.username;
 
     const following = username + 'following';
     const query = `SELECT COUNT(*) AS row_count FROM ${following}`;
@@ -75,10 +77,11 @@ app.post('/api/following-number', (req, res) => {
         return res.send(result);
     });
 });
+
   
 // Route to get follower numbers
-app.post('/api/follower-number', (req, res) => {
-    const username = req.body.username;
+app.get('/api/follower/:username', (req, res) => {
+    const username = req.params.username;
   
     const followers = username + 'followers';
     const query = `SELECT COUNT(*) AS row_count FROM ${followers}`;
