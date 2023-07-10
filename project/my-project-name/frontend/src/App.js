@@ -12,15 +12,6 @@ import About from "./components/About";
 import Help from "./components/Help";
 import Create from "./components/Create";
 
-import "./Style/home.css";
-import "./Style/forgot-password.css";
-import "./Style/login.css";
-import "./Style/not-found.css";
-import "./Style/signup.css";
-import "./Style/user-profile.css";
-import "./Style/nav-bar.css";
-import "./Style/general.css";
-
 const App = () => {
   return (
     <div className="App">
@@ -37,7 +28,6 @@ const App = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/create" element={<Create />} />
       </Routes>
-      <Footer />
     </div>
   );
 };

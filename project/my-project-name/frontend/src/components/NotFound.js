@@ -1,12 +1,16 @@
 import React from "react";
 
-const NotFound = () => {
+function NotFound() {
   return (
-    <div className="my-container">
-      <h1>404 - Page Not Found</h1>
-      <p>The requested page does not exist.</p>
+    <div class="p-5 text-center bg-body-tertiary">
+      <div class="container py-5">
+        <h1 class="text-body-emphasis">Page not found!</h1>
+        <p class="col-lg-8 mx-auto lead">
+          Please try again later or contact us if the problem persists.
+        </p>
+      </div>
     </div>
-  );
-};
+  )
+}
 
 export default NotFound;

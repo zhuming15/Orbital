@@ -20,7 +20,7 @@ planetscale.connect((err) => {
   console.log('Connected to the database!');
 
   // Closing the connection
- // planetscale.end();
+  // planetscale.end();
 });
 
 module.exports = planetscale;

@@ -1,21 +1,17 @@
 import React from "react";
+import footerStyle from "../Style/footer.css";
 
-const Footer = () => {
+function Footer() {
   return (
-    <footer className="footer conatainer">
-      <div className="footer-content">
-        <p>
-          &copy; {new Date().getFullYear()} PinterestClone by Team Limit Test.
-          All rights reserved.
-        </p>
-        <div>
-          <p>
-            <a href="/about">About</a> <a href="/help">Help</a>
-          </p>
-        </div>
-      </div>
+    <footer style={footerStyle} className="footer">
+      <ul className="nav justify-content-center border-bottom pb-3 mb-3">
+        <li className="nav-item"><a href="/about" class="nav-link px-2 text-body-secondary">About</a></li>
+        <li className="nav-item"><a href="/help" class="nav-link px-2 text-body-secondary">Help</a></li>
+      </ul>
+      <p class="text-center text-body-secondary">&copy; {new Date().getFullYear()} PinterestClone by Team Limit Test.
+        All rights reserved.</p>
     </footer>
-  );
-};
+  )
+}
 
 export default Footer;
