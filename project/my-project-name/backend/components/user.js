@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 
-app.route(`api/profile-picture/:email/:username/:password`)
+app.route(`api/user/:email/:username/:password`)
 
   // Route for creating the user
   .post( (req, res) => {
