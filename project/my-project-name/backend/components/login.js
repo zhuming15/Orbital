@@ -1,16 +1,11 @@
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
+const express = require('express');
+const router = express.Router();
 
 
 
 // Route for login
-app.post('/api/login', (req, res) => {
+router.post('/api/login/:email/:password', (req, res) => {
   const email = req.params.email;
   const password = req.params.password;
   const query = `SELECT * FROM users WHERE email = ?`;
@@ -24,3 +19,5 @@ app.post('/api/login', (req, res) => {
     return res.status(200).json({ message: 'Login successful' });
   });
 });
+
+module.exports = router;

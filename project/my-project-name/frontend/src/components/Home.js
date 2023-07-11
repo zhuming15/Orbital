@@ -14,13 +14,16 @@ const Home = () => {
   }, []);
 
   const fetchPosts = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3002/api/posts/${username}`);
-      const data = await response.json();
-      setPosts(data);
-    } catch (error) {
-      console.log("Error fetching posts:", error);
-    }
+    await axios.get(`http://localhost:3002/api/posts/${username}`)
+      .then((res) => {
+        console.log(res);
+        console.log("Fetch Post OK");
+        setPosts(res);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log("Fetch Post NOT OK");
+      })
   };
 
   return (

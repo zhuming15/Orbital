@@ -2,9 +2,8 @@ import React from "react";
 
 function Post(props) {
   const handleClick = () => {
-    console.log("Clicked");
-
-  };
+    // perform focus logic
+  }
 
   return (
     <div className="post" onClick={handleClick}>

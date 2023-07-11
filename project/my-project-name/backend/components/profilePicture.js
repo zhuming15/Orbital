@@ -1,15 +1,10 @@
-const { addImage } = require('azureBlob');
-const express = require('express');
+const { addImage } = require('../config/azureBlob');
+
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
+const express = require('express');
+const router = express.Router();
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-
-app.route(`api/profile-picture/:username`)
+router.route('/api/profile-picture/:username')
 
   // Route for getting profile picture
   .get((req, res) => {
@@ -43,4 +38,4 @@ app.route(`api/profile-picture/:username`)
   })
 ;
   
-
+module.exports = router;

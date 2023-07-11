@@ -15,16 +15,18 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await axios.post(`http://localhost:3002/api/login`, {
+    await axios.post(`http://localhost:3002/api/login/${email}/${password}`, {
       email: email,
       password: password,
     })
       .then((response) => {
         console.log(response);
+        console.log("OK")
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
+        console.log("Login NOT OK")
         setError(true);
       });
   };

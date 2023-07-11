@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PinterestLogo from "./Logo/Pinterest";
 import Input from "./LoginSystem/Input";
 import Message from "./LoginSystem/Message"
+import axios from 'axios';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [resetSent, setResetSent] = useState(false);
+  const navigate = useNavigate();
 
   const renderInvalidEmail = () => {
     return (
@@ -16,11 +18,19 @@ const ForgotPassword = () => {
     );
   };
 
-  const handleSubmit = (event) => {
-    // event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    // // Perform reset password logic here, such as sending a reset email to the provided email address
-    // // const isValidEmail = checkForgotPasswordDetails(email);
+    // Perform reset password logic here, such as sending a reset email to the provided email address
+    await axios.put('http://localhost:3002/api/user', { email: email, password: 123 })
+      .then(res => {
+        console.log(res);
+        console.log("Forgot Password OK");
+        navigate("/login");
+      }).catch(err => {
+        console.log(err);
+        console.log("Forgot Password NOT OK");
+      });
 
     // if (isValidEmail) {
     //   console.log("Reset email sent");
@@ -29,7 +39,7 @@ const ForgotPassword = () => {
     //   return renderInvalidEmail();
     // }
 
-    // // Reset form field and update state to indicate reset email sent
+    // Reset form field and update state to indicate reset email sent
     // setEmail("");
     // setResetSent(true);
   };
@@ -43,7 +53,7 @@ const ForgotPassword = () => {
           <Message messageID="reset-email-sent" content="Reset email sent! Please check your email for further instructions." />
         ) : (
           <form onSubmit={handleSubmit}>
-            <Input init="" inputType="email" inputId="email" inputPlaceholder="Email" key="forgot_password_email" required />
+            <Input useState={[email, setEmail]} inputType="email" inputId="email" inputPlaceholder="Email" key="forgot_password_email" required />
             <button type="submit" className="btn btn-primary my-3">Reset Password</button>
           </form>
         )}
