@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./NavBar";
 
 const CreatePost = () => {
   const [postContent, setPostContent] = useState("");

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./NavBar";
 import { Link, useNavigate } from "react-router-dom";
 
 const UserSettings = () => {
@@ -136,7 +136,7 @@ const UserSettings = () => {
 
       {currentPage === "settings" && (
         <div className="container">
-          <div clsasName="container">
+          <div className="container">
             <h2>Settings</h2>
           </div>
           <div className="container">
@@ -183,5 +183,14 @@ const UserSettings = () => {
     </div>
   );
 };
+
+// function UserSettings() {
+//   return (
+//     <div className="container d-flex">
+//       <SettingSideBar />
+//       <SettingContent 
+//     </div>
+//   )
+// }
 
 export default UserSettings;

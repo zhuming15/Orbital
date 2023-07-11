@@ -9,15 +9,18 @@ import Input from "./LoginSystem/Input"
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState("false");
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await axios.post(`api/login/${email}/${password}`)
+    await axios.post(`http://localhost:3002/api/login`, {
+      email: email,
+      password: password,
+    })
       .then((response) => {
+        console.log(response);
         navigate("/");
       })
       .catch((error) => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "./NavBar";
 import Posts from "./Posts";
 
 const UserProfile = ({ username, profilePicture, bio, followerCount }) => {
@@ -24,7 +24,7 @@ const UserProfile = ({ username, profilePicture, bio, followerCount }) => {
     // Add more post objects as needed
   ];
 
-  const handleFollow = () => {};
+  const handleFollow = () => { };
 
   return (
     <div>
@@ -69,8 +69,8 @@ const UserProfile = ({ username, profilePicture, bio, followerCount }) => {
           </div> */}
           <div className="container">
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <Posts posts = {posts}/>
-              
+              <Posts posts={posts} />
+
             </div>
           </div>
         </div>

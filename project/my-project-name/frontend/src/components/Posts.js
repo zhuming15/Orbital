@@ -1,8 +1,13 @@
 import React from "react";
 
-const Posts = ({ title, content, author }) => {
+function Post(props) {
+  const handleClick = () => {
+    console.log("Clicked");
+
+  };
+
   return (
-    <div className="post">
+    <div className="post" onClick={handleClick}>
       <div className="col">
         <div className="card shadow-sm">
           <svg
@@ -17,10 +22,10 @@ const Posts = ({ title, content, author }) => {
           >
             <title>Placeholder</title>
             <rect width="100%" height="100%" fill="#55595c"></rect>
-            <image href={require("../Asset/image.jpg")} width="100%" height= "100%" />
+            <image href={props.pic} width="100%" height="100%" />
           </svg>
           <div className="card-body">
-            <p className="card-text">beautiful picture</p>
+            <p className="card-text">{props.caption}</p>
             <div className="d-flex justify-content-between align-items-center">
               <div className="btn-group">
                 <button
@@ -36,7 +41,7 @@ const Posts = ({ title, content, author }) => {
                   Share
                 </button>
               </div>
-              <small className="text-body-secondary">0 mins</small>
+              <small className="text-body-secondary">{props.time}</small>
             </div>
           </div>
         </div>
@@ -45,4 +50,4 @@ const Posts = ({ title, content, author }) => {
   );
 };
 
-export default Posts;
+export default Post;
