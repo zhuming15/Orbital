@@ -1,16 +1,9 @@
-import { addImage } from azureBlob;
-
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
+const express = require('express');
+const router = express.Router();
 
 
-app.route(`api/like/:username`)
+router.route('/api/like/:username')
 
     // Route for liking post
     .post( (req, res) => {
@@ -28,7 +21,7 @@ app.route(`api/like/:username`)
     })
 
     // Route to unlike post
-    app.delete( (req, res) => {
+    .delete( (req, res) => {
         const picture_name = req.body.picture_name;
         const username = req.params.username;
         const post_of = 'post-of-' + username;
@@ -43,4 +36,4 @@ app.route(`api/like/:username`)
     })
 ;
 
-
+module.exports = router;

@@ -1,15 +1,11 @@
-import { addImage } from azureBlob;
+const { addImage } = require('../config/azureBlob');
 
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
+const express = require('express');
+const router = express.Router();
 
-const app = express();
 
-app.use(cors());
-app.use(express.json());
-
-app.route(`api/post/:username`)
+router.route('/api/post/:username')
 
     // Route for creating post
     .post( (req, res) => {
@@ -74,3 +70,4 @@ app.route(`api/post/:username`)
     })
 ;
 
+module.exports = router;

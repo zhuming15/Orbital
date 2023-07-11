@@ -13,26 +13,20 @@ const SignUp = () => {
     return <p>Invalid signup details</p>;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Perform signup logic here, such as sending the data to an API endpoint
     console.log("Signup form submitted", email, password);
 
-    const isValidDetails = axios.post("http://localhost:3002/api/signup", {
-      email: email,
-      username: username,
-      password: password,
+    const isValidDetails = await axios.post('http://localhost:3002/api/user', { email: email, username: username, password: password})
+    .then(res => {
+      console.log("ok");
+    }).catch(err => {
+      console.log("signup no");
     });
 
-    if (!isValidDetails) {
-      console.log("Signup failed");
-      renderInvalidSignupMessage();
-      return;
-    } else {
-      console.log("Signup successful");
-      return navigate("/");
-    }
+    
   };
 
   return (

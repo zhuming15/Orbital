@@ -1,13 +1,9 @@
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
+const express = require('express');
+const router = express.Router();
 
-const app = express();
 
-app.use(cors());
-app.use(express.json());
-
-app.route(`api/follow/:username1/:username2`)
+router.route('/api/follow/:username1/:username2')
 
   // Route for following another user
   .post( (req, res) => {
@@ -64,7 +60,7 @@ app.route(`api/follow/:username1/:username2`)
   
 
 // Route to get following numbers
-app.get('/api/following/:username', (req, res) => {
+router.get('/api/following/:username', (req, res) => {
     const username = req.params.username;
 
     const following = username + 'following';
@@ -80,7 +76,7 @@ app.get('/api/following/:username', (req, res) => {
 
   
 // Route to get follower numbers
-app.get('/api/follower/:username', (req, res) => {
+router.get('/api/follower/:username', (req, res) => {
     const username = req.params.username;
   
     const followers = username + 'followers';
@@ -94,5 +90,4 @@ app.get('/api/follower/:username', (req, res) => {
     });
 });
   
-
-
+module.exports = router;

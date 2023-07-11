@@ -1,29 +1,23 @@
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
+const express = require('express');
+const router = express.Router();
 
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-
-app.route(`api/user/:email/:username/:password`)
+router.route('/api/user')
 
   // Route for creating the user
   .post( (req, res) => {
-    const email = req.params.email;
-    const username = req.params.username;
-    const password = req.params.password;
+    const email = req.body.email;
+    const username = req.body.username;
+    const password = req.body.password;
     
     const query = `INSERT INTO users (email, username, password) VALUES (?,?,?)`;
-
+  
     planetscale.query(query, [email, username, password], (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Account already exists' });
       }
     });
-
+  
     const post_of = 'post-of-' + username;
     const createPostTablesQuery = `
       CREATE TABLE IF NOT EXISTS ${post_of} (
@@ -32,33 +26,33 @@ app.route(`api/user/:email/:username/:password`)
         caption TEXT,
         likes INT
       )`;
-
+  
     planetscale.query(createPostTablesQuery, (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Error creating post table' });
       }
     });
-
+  
     const following = username + 'following';
     const createFollowingTablesQuery = `
       CREATE TABLE IF NOT EXISTS ${following} (
         id INT AUTO_INCREMENT PRIMARY KEY,  
         following_username VARCHAR(255) UNIQUE,
       )`;
-
+  
     planetscale.query(createFollowingTablesQuery, (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Error creating following table' });
       }
     });  
-
+  
     const followers = username + 'followers';
     const createFollowerTablesQuery = `
       CREATE TABLE IF NOT EXISTS ${followers} (
         id INT AUTO_INCREMENT PRIMARY KEY,  
         follower_username VARCHAR(255) UNIQUE,
       )`;
-
+  
     planetscale.query(createFollowerTablesQuery, (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'Error creating followers table' });
@@ -98,7 +92,7 @@ app.route(`api/user/:email/:username/:password`)
 
 
 // Route to check if account exist
-app.get('/api/get-email/:email', (req, res) => {
+router.get('/api/get-email/:email', (req, res) => {
   const email = req.body.email;
   const query = `SELECT * FROM users WHERE email = ?`;
 
@@ -109,3 +103,5 @@ app.get('/api/get-email/:email', (req, res) => {
     return res.status(200).json({ message: 'Accouont Exist' });
   });
 });
+
+module.exports = router;

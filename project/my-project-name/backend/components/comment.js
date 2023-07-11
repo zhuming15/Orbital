@@ -1,19 +1,10 @@
-import { addImage } from azureBlob;
-
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-
+const express = require('express');
+const router = express.Router();
 
 
 // Route for commenting
-app.post('/api/comment', (req, res) => {
+router.post('/api/comment', (req, res) => {
     const username = req.body.username;
     const picture_name = req.body.picture_name;
     const comment = req.body.comment;
@@ -28,4 +19,4 @@ app.post('/api/comment', (req, res) => {
     });
 });
 
-
+module.exports = router;

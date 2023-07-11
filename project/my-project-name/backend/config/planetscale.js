@@ -36,7 +36,7 @@ planetscale.connect((err) => {
      );
   `;
 
-  connection.query(createTablesQuery, (err, results) => {
+  planetscale.query(createTablesQuery, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       return;

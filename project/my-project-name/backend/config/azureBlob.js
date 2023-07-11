@@ -63,7 +63,7 @@ const retrieveImage = async (blobName) => {
 
 
 
-export {
+module.exports = {
   addImage,
   retrieveImage
 };

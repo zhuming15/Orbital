@@ -1,17 +1,11 @@
-import { addImage } from azureBlob;
+const { addImage } = require('../config/azureBlob');
 
-const express = require('express');
 const planetscale = require('../config/planetscale');
-const cors = require('cors');
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
+const express = require('express');
+const router = express.Router();
 
 // Route to search post
-app.get(`/api/search/:keyword`, (req, res) => {
+router.get('/api/search/:keyword', (req, res) => {
     const keyword = req.params.keyword;
   
     // Query to retrieve table names that contain the substring 'post'
@@ -45,3 +39,5 @@ app.get(`/api/search/:keyword`, (req, res) => {
         }
     });
 });  
+
+module.exports = router;
