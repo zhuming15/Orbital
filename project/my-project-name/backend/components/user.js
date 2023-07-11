@@ -24,6 +24,7 @@ router.route('/api/user')
         id INT AUTO_INCREMENT PRIMARY KEY,  
         picture_name TEXT, 
         caption TEXT,
+        datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         likes INT
       )`;
   
