@@ -1,0 +1,14 @@
+/* .footer {
+  position: absolute;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  bottom: 0;
+  width: 100%;
+} */
+
+footer {
+  bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  width: 100%;
+}
