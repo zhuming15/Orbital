@@ -11,6 +11,7 @@ import Setting from "./Pages/Setting";
 import About from "./Pages/About";
 import Help from "./Pages/Help";
 import Create from "./components/Create/Create";
+import PostFocus from "./components/PostFocus/PostFocus";
 
 const App = () => {
 
@@ -21,10 +22,15 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/posts/:postID" element={<Posts />} />
+        <Route path="/posts/:postID" element={<PostFocus />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/*" element={<NotFound />} />
-        <Route path="/settings" element={<Setting />} />
+        <Route path="/settings" element={<Setting />}>
+          {/* <Route path="/settings/edit-profile" element={<Setting />} />
+          <Route path="/settings/change-password" element={<Setting />} />
+          <Route path="/settings/change-email" element={<Setting />} />
+          <Route path="/settings/delete-account" element={<Setting />} /> */}
+        </Route>
         <Route path="/about" element={<About />} />
         <Route path="/help" element={<Help />} />
         <Route path="/create" element={<Create />} />

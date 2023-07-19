@@ -93,7 +93,7 @@ const CreatePost = () => {
 
     <div>
       <NavBar />
-      <MDBContainer className="shadow-5-strong rounded-7">
+      <MDBContainer className="shadow-5-strong rounded-7 py-5 px-5">
         <form onSubmit={handleFormSubmit}>
           <MDBRow className="align-items-center">
             <MDBCol className="h-100">
@@ -138,7 +138,7 @@ const CreatePost = () => {
           </MDBRow>
         </form>
       </MDBContainer>
-    </div >
+    </div>
   );
 };
 

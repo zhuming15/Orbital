@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NavBarLogo from "../Logo/NavBarLogo";
+import { Link, useNavigate } from "react-router-dom";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 
 // const NavBar = () => {
@@ -36,21 +37,22 @@ import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 function NavBar() {
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("../Asset/image.jpg");
+
   return (
-    <div className="py-3 container">
+    <div className="py-3 container sticky-top" style={{ backgroundColor: "white" }}>
       <div className="d-flex flex-row flex-wrap align-items-center justify-content-between">
-        <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+        <Link to="/" className="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
           <NavBarLogo />
-        </a>
+        </Link>
 
         <ul className="nav justify-content-center mb-md-0">
           <li>
-            <a href="create">
+            <Link to="/create" className="nav-link link-body-emphasis text-decoration-none">
               <MDBBtn className="btn btn-dark btn-rounded">
                 <i class="far fa-square-plus fa-1x me-2"></i>
                 Create
               </MDBBtn>
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -59,15 +61,15 @@ function NavBar() {
         </form>
 
         <div className="col-lg-auto dropdown text-end">
-          <a href="profile" className="nav-link link-body-emphasis text-decoration-none dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <Link to="profile" className="nav-link link-body-emphasis text-decoration-none dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src={"https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp" || profilePic}
               alt="profile-pic" width="40" height="40" className="rounded-circle" />
-          </a>
+          </Link>
           <ul className="dropdown-menu text-small">
-            <li><a className="dropdown-item" href="/settings"><MDBIcon fas icon="cog me-2" />Setting</a></li>
-            <li><a className="dropdown-item" href="/profile"><MDBIcon fas icon="user-circle me-2" />Profile</a></li>
+            <li><Link className="dropdown-item" to="/settings"><MDBIcon fas icon="cog me-2" />Setting</Link></li>
+            <li><Link className="dropdown-item" to="/profile"><MDBIcon fas icon="user-circle me-2" />Profile</Link></li>
             <li><hr className="dropdown-divider" /></li>
-            <li><a className="dropdown-item" href="/login"><MDBIcon fas icon="sign-out-alt me-2" />Log out</a></li>
+            <li><Link className="dropdown-item" to="/login"><MDBIcon fas icon="sign-out-alt me-2" />Log out</Link></li>
           </ul>
         </div>
       </div>

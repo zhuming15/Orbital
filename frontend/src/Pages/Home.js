@@ -4,6 +4,7 @@ import axios from "axios";
 // import Footer from "./Footer";
 import NavigationBar from "../components/NavBar";
 import Posts from "../components/Post/Post";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -31,14 +32,20 @@ const Home = () => {
   return (
     <div className="container">
       <NavigationBar />
-      <h1>Welcome to the Pinterest Clone Home Page</h1>
 
-      <div className="container">
+      <div className="container my-6 d-block">
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
+          <Posts />
           {posts.map(post => (<Posts pic={post.img} caption={post.caption} time={post.time} />))}
         </div>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 };
