@@ -12,11 +12,13 @@ router.route('/api/post/:username')
         const username = req.params.username;
         const image = req.body.image;
         const caption = req.body.caption;
-    
+        const tags = req.body.tags;
+        const tagsJson = JSON.stringify(tags);
+
         const picture_name = addImage(image);
         
         const post_of = 'post_of_' + username;
-        const query = `INSERT INTO ${post_of} (picture_name, caption, likes) VALUES (?,?,0)`;
+        const query = `INSERT INTO ${post_of} (picture_name, caption, tags, likes) VALUES (?,?,?,0)`;
     
         const commentTable = 'post_' + picture_name;
         const createTablesQuery = `
@@ -26,7 +28,7 @@ router.route('/api/post/:username')
             created_by VARCHAR(255)
         )`;
 
-        planetscale.query(query, [picture_name, caption], (err, result) => {
+        planetscale.query(query, [picture_name, caption, tagsJson], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Error creating post' });
             }

@@ -25,7 +25,8 @@ planetscale.connect((err) => {
     CREATE TABLE IF NOT EXISTS users (
       username VARCHAR(255) UNIQUE PRIMARY KEY,
       email VARCHAR(255) UNIQUE,
-      password TEXT
+      password TEXT,
+      preference JSON
     );
 
     CREATE TABLE IF NOT EXISTS profilePicture (

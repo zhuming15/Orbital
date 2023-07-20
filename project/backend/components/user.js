@@ -11,7 +11,7 @@ router.route('/api/user')
     const username = req.body.username;
     const password = req.body.password;
 
-    const query = `INSERT INTO users (email, username, password) VALUES (?,?,?)`;
+    const query = `INSERT INTO users (email, username, password, preference) VALUES (?, ?, ?, '{}')`;
 
     const post_of = 'post_of_' + username;
     const createPostTablesQuery = `
@@ -19,6 +19,7 @@ router.route('/api/user')
         id INT AUTO_INCREMENT PRIMARY KEY,  
         picture_name TEXT, 
         caption TEXT,
+        tags JSON,
         datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         likes INT
       )`;
