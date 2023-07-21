@@ -1,5 +1,4 @@
-const { addImage } = require('../config/azureBlob');
-
+const azureBlob  = require('../config/azureBlob');
 const planetscale = require('../config/planetscale');
 const express = require('express');
 const router = express.Router();
@@ -32,8 +31,16 @@ router.get('/api/search/:keyword', (req, res) => {
                     return res.status(500).json({ error: 'Error executing UNION query:' });
                     // Handle the error
                 } else {
-                    // Process the result
-                    return res.status(200).json({ post: result });
+                    // Loop through the result array and add the new key-value pair to each object
+                    const postsWithImage = result.map( post => {
+                        const imageFile = azureBlob.retrieveImage(post.picture_name);
+                        // Convert the buffer to a Base64 string
+                        const imageBase64 = imageFile.toString('base64');
+                        // You can add any new key-value pair here
+                        post.file = imageBase64;
+                        return post;
+                    });
+                    return res.status(200).json(postsWithImage);
                 }
             });
         }

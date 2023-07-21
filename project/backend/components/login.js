@@ -17,7 +17,7 @@ router.post('/api/login/:username/:email/:password', (req, res) => {
   planetscale.query(query, [email], (err, result) => {
     if (!result || result.length === 0) {
       return res.status(404).json({ error: 'Invalid email or password' });
-    } else if (result[0].data.password !== password) {
+    } else if (result[0].password !== password) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
     const user = { user: username };

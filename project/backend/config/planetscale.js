@@ -26,6 +26,7 @@ planetscale.connect((err) => {
       username VARCHAR(255) UNIQUE PRIMARY KEY,
       email VARCHAR(255) UNIQUE,
       password TEXT,
+      bio TEXT,
       preference JSON
     );
 

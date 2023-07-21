@@ -85,7 +85,7 @@ router.route('/api/user')
   .put((req, res) => {
     const email = req.params.email;
     const password = req.params.password;
-    const query = `UPDATE users SET password = '?' WHERE email = '?' `;
+    const query = `UPDATE users SET password = ? WHERE email = ? `;
 
     planetscale.query(query, [password, email], (err, result) => {
       if (err) {

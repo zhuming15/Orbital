@@ -7,7 +7,7 @@ const router = express.Router();
 const upload = multer({ dest: 'uploads/' }); // Temporary storage for the uploaded image
 
 // Route for creating post
-router.post('/api/post', async (req, res) => {
+router.post('/api/post', upload.single('image'), async (req, res) => {
     const username = req.body.username;
     const caption = req.body.caption;
     const tags = req.body.tags;
@@ -36,7 +36,7 @@ router.post('/api/post', async (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Error creating post' });
         }
-        planetscale.query(createTablesQuery, [], (err, result) => {
+        planetscale.query(createTablesQuery, (err, result) => {
             if (err) {
                 return res.status(500).json({ error: 'Error creating comment table' });
             }
@@ -66,12 +66,12 @@ router.get('/api/post', (req, res) => {
     const post_of = 'post_of_' + username;
     const query = `SELECT * FROM ${post_of}`;
 
-    planetscale.query(query, [], (err, result) => {
+    planetscale.query(query, (err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Error getting post' });
         }
         // Loop through the result array and add the new key-value pair to each object
-        const postsWithImage = result.map(post => {
+        const postsWithImage = result.map( post => {
             const imageFile = azureBlob.retrieveImage(post.picture_name);
             // Convert the buffer to a Base64 string
             const imageBase64 = imageFile.toString('base64');
@@ -81,6 +81,20 @@ router.get('/api/post', (req, res) => {
         });
 
         return res.status(200).json( postsWithImage );
+    });
+});
+
+// Route to get post number
+router.get('/api/postNumber/:username', (req, res) => {
+    const username = req.params.username;
+    const post_of = 'post_of_' + username;
+    const query = `SELECT COUNT(*) AS row_count FROM ${post_of}`;
+
+    planetscale.query(query, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error getting post number' });
+        }
+        return res.status(200).json({ number: result[0].row_count });
     });
 });
 

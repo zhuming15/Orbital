@@ -16,6 +16,7 @@ const likePost = require('./components/likePost');
 const follow = require('./components/follow');
 const comment = require('./components/comment');
 const recommendation = require('./components/recommendation');
+const bio = require('./components/bio');
 
 app.use(user);
 app.use(search);
@@ -26,6 +27,7 @@ app.use(likePost);
 app.use(follow);
 app.use(comment);
 app.use(recommendation);
+app.use(bio);
 
 const PORT = 3002;
 

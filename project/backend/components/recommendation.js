@@ -22,7 +22,7 @@ router.get('/api/recommendation/:username', (req, res) => {
         }
         const rankedPosts = rankPosts(results, result);
         // Loop through the result array and add the new key-value pair to each object
-        const postsWithImage = rankedPosts.map(post => {
+        const postsWithImage = rankedPosts.map( post => {
             const imageFile = azureBlob.retrieveImage(post.picture_name);
             // Convert the buffer to a Base64 string
             const imageBase64 = imageFile.toString('base64');
