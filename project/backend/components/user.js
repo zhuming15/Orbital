@@ -1,7 +1,9 @@
-const planetscale = require('../config/planetscale');
+require('../dotenv').config();
 
+const planetscale = require('../config/planetscale');
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 router.route('/api/user')
 
@@ -54,7 +56,9 @@ router.route('/api/user')
                   if (err) {
                     return res.status(500).json({ error: 'Error creating followers table' });
                   }
-                  return res.status(200).json({ message: 'Signup successful' });
+                  const user = { user: username };
+                  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+                  return res.status(200).json({ accessToken: accessToken });
                 });
               }
             });
@@ -105,5 +109,21 @@ router.get('/api/get-email/:email', (req, res) => {
     return res.status(200).json({ message: 'Accouont Exist' });
   });
 });
+
+
+
+// function authenticateToken(req, res, next) {
+//   const authHeader = req.headers['authorization']
+//   const token = authHeader && authHeader.split(' ')[1]
+//   if (token == null) return res.sendStatus(401)
+
+//   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//     console.log(err)
+//     if (err) return res.sendStatus(403)
+//     req.user = user
+//     next()
+//   })
+// }
+
 
 module.exports = router;

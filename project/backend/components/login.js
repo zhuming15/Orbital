@@ -1,11 +1,15 @@
+require('../dotenv').config();
+
 const planetscale = require('../config/planetscale');
 const express = require('express');
 const router = express.Router();
 
+const jwt = require('jsonwebtoken');
 
 
 // Route for login
-router.post('/api/login/:email/:password', (req, res) => {
+router.post('/api/login/:username/:email/:password', (req, res) => {
+  const username = req.params.username;
   const email = req.params.email;
   const password = req.params.password;
   const query = `SELECT * FROM users WHERE email = ?`;
@@ -16,7 +20,9 @@ router.post('/api/login/:email/:password', (req, res) => {
     } else if (result[0].data.password !== password) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
-    return res.status(200).json({ message: 'Login successful' });
+    const user = { user: username };
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    return res.status(200).json({ accessToken: accessToken });
   });
 });
 

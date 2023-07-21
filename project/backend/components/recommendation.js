@@ -1,4 +1,5 @@
 const planetscale = require('../config/planetscale');
+const azureBlob  = require('../config/azureBlob');
 const express = require('express');
 const router = express.Router();
 
@@ -20,7 +21,16 @@ router.get('/api/recommendation/:username', (req, res) => {
           return res.status(500).json({ error: "Error getting posts" });
         }
         const rankedPosts = rankPosts(results, result);
-        return res.status(200).json({ rankedPosts });
+        // Loop through the result array and add the new key-value pair to each object
+        const postsWithImage = rankedPosts.map(post => {
+            const imageFile = azureBlob.retrieveImage(post.picture_name);
+            // Convert the buffer to a Base64 string
+            const imageBase64 = imageFile.toString('base64');
+            // You can add any new key-value pair here
+            post.file = imageBase64;
+            return post;
+        });
+        return res.status(200).json( postsWithImage );
       });
     });
 });
