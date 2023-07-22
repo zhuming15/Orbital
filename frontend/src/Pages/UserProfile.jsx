@@ -11,6 +11,7 @@ function UserProfile() {
   const auth = useAuthUser();
   const username = auth().username;
   const [profilePictur, setProfile] = useState(null);
+  const [isFollowed, setIsFollowed] = useState(false);
   const [bio, setBio] = useState(null);
   const [postNumber, setPostNumber] = useState(0);
   const [followerNumber, setFollowerNumber] = useState(0);
@@ -79,6 +80,25 @@ function UserProfile() {
     setPostNumber(posts.length);
   }, []);
 
+  const follow = async () => {
+    if (isFollowed) {
+      setFollowerNumber(followerNumber - 1);
+    } else {
+      setFollowerNumber(followerNumber + 1);
+    }
+    setIsFollowed(!isFollowed);
+    await axios.post(`${BACKEND_URL}/api/follow/${username}`, {
+      username: username,
+    })
+      .then((res) => {
+        console.log(res);
+        console.log("Follow OK");
+      })
+      .catch(err => {
+        console.log(err);
+        console.log("Follow NOT OK");
+      })
+  }
 
 
   return (
@@ -92,8 +112,8 @@ function UserProfile() {
                 <div className="ms-4 mt-5 d-flex flex-column" style={{ width: '150px' }}>
                   <MDBCardImage src={profilePictur || "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"}
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
-                  <MDBBtn outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
-                    Follow
+                  <MDBBtn onClick={follow} outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
+                    {isFollowed ? "Unfollow" : "Follow"}
                   </MDBBtn>
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
@@ -109,11 +129,11 @@ function UserProfile() {
                   </div>
                   <div className="px-3">
                     <MDBCardText className="mb-1 h5">{99 || followingNumber}</MDBCardText>
-                    <MDBCardText className="small text-muted mb-0">Follower</MDBCardText>
+                    <MDBCardText className="small text-muted mb-0">Following</MDBCardText>
                   </div>
                   <div>
-                    <MDBCardText className="mb-1 h5">{99 || followerNumber}</MDBCardText>
-                    <MDBCardText className="small text-muted mb-0">Following</MDBCardText>
+                    <MDBCardText className="mb-1 h5">{followerNumber}</MDBCardText>
+                    <MDBCardText className="small text-muted mb-0">Follower</MDBCardText>
                   </div>
                 </div>
               </div>
