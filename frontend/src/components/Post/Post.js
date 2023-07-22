@@ -1,22 +1,30 @@
 import React from "react";
-// import {  }
-import { MDBCardImage, MDBRipple } from "mdb-react-ui-kit";
-import style from "./Post.css";
+import { useNavigate } from "react-router-dom";
+import { MDBCardImage, MDBRipple, MDBCard } from "mdb-react-ui-kit";
 
 function Post(props) {
-  const { picture, title } = props
+  const { picture, title, postID } = props
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    // perform focus logic
+    return navigate(`/posts/${postID}`);
+  }
 
   return (
     <MDBRipple
       className='bg-image hover-overlay hover-shadow mb-2'
       rippleTag='div'
       rippleColor='light'
+      onClick={handleClick}
     >
-      <MDBCardImage src={"https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp" || picture}
-        alt={"image-1" || title} className="w-100 rounded-3" />
-      <a href='#!'>
-        <div className='mask' style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
-      </a>
+      <MDBCard>
+        <MDBCardImage src={"https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp" || picture}
+          alt={"image-1" || title} className="w-100 rounded-3" />
+        <a href='#!'>
+          <div className='mask' style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
+        </a>
+      </MDBCard>
     </MDBRipple>
   );
 }

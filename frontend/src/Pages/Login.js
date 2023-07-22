@@ -3,8 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import Logo from "../Logo/Logo";
-import Message from "../components/Message";
 import Input from "../components/Input"
+
+import BACKEND_URL from "../config";
 
 // const Login = () => {
 //   const [email, setEmail] = useState("");
@@ -56,49 +57,75 @@ import Input from "../components/Input"
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useSignIn } from "react-auth-kit";
 
 const validationSchema = Yup.object({
+  username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email address').required('Email is required'),
   password: Yup.string().min(6, 'Password should be at least 6 characters').required('Password is required'),
 });
 
 function Login() {
+  const signIn = useSignIn();
+
+  const handleLogin = async (values) => {
+    await axios.post(`${BACKEND_URL}/api/login/${values.email}/${values.password}`, {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    })
+      .then((res) => {
+        console.log("Login OK");
+        if (signIn({
+          token: res.data.token,
+          expiresIn: res.data.expiresIn,
+          tokenType: "Bearer",
+          authState: res.data.authUserState,
+        })) {
+          console.log("Login Auth OK");
+          navigate('/');
+        } else {
+          console.log("Login Auth NOT OK");
+        }
+      })
+      .catch((err) => {
+        // Handle signup or login error, e.g., display error message
+        console.log("Login Not OK");
+        console.log(err);
+      });
+  }
+
   const formik = useFormik({
     initialValues: {
+      username: '',
       email: '',
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      // Handle form submission
-
-      await axios.post(`http://localhost:3002/api/login/${email}/${password}`, {
-        email: email,
-        password: password,
-      })
-        .then((response) => {
-          console.log(response);
-          console.log("OK")
-          navigate("/");
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log("Login NOT OK")
-        });
-      console.log(values);
-    },
+    onSubmit: handleLogin,
   });
+
   const navigate = useNavigate();
   const email = formik.values.email;
   const password = formik.values.password;
   const setEmail = formik.handleChange;
   const setPassword = formik.handleChange;
+  const username = formik.values.username;
+  const setUsername = formik.handleChange;
 
   return (
     <div className="py-5 container">
       <Logo />
       <h2>Login</h2>
       <form onSubmit={formik.handleSubmit}>
+        <Input
+          useState={[username, setUsername]}
+          inputType="text"
+          inputId="username"
+          inputPlaceholder="Username"
+          key="login_username"
+          required
+        />
         <Input
           useState={[email, setEmail]}
           inputType="email"

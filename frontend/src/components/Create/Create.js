@@ -3,98 +3,59 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBCard, MDBIcon, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { useDropzone } from 'react-dropzone';
+import { useAuthUser } from 'react-auth-kit';
 
 import NavBar from "../NavBar";
+import BACKEND_URL from "../../config";
 
 const CreatePost = () => {
-  const [postContent, setPostContent] = useState("");
-  const [imageFile, setImageFile] = useState(null);
-  const [tag, setTag] = useState("");
   const navigate = useNavigate();
-  const username = "test1"; // hardcode
-
-  const handleInputChange = (event) => {
-    setPostContent(event.target.value);
-  };
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setImageFile(file);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Here you can implement the logic to submit the post content
-    // and the image file to your backend or perform any other actions as needed
-    await axios.post(`http://localhost:3002/api/post/${username}`, {
-      username: username,
-      image: imageFile,
-      caption: postContent
-    })
-      .then((res) => {
-        console.log(res);
-        navigate("/");
-      })
-      .catch(err => {
-        console.log(err);
-        alert("Fail to create Post");
-      })
-    setPostContent(""); // Clear the input field after submission
-    setImageFile(null); // Clear the selected image file
-  };
-
-  const [postTitle, setPostTitle] = useState(""); // [postTitle, setPostTitle
+  const auth = useAuthUser();
+  const username = auth().username;
+  const [postTitle, setPostTitle] = useState("");
+  const [postContent, setPostContent] = useState("");
+  const [tag, setTag] = useState("");
   const [files, setFiles] = useState([]);
 
-  const handleFormSubmit = (e) => {
+  const convertImageToFormData = (image) => {
+    const formData = new FormData();
+    formData.append("image", image);
+    return formData;
+  };
+
+  const uploadImage = async (e) => {
     e.preventDefault();
+
     // Handle form submission logic here
+    await axios.post(`${BACKEND_URL}/api/post/${username}`, {
+      username: username,
+      title: postTitle,
+      content: postContent,
+      tag: tag,
+      image: convertImageToFormData(files[0]),
+    })
+      .then((res) => {
+        console.log("Upload post OK");
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log("Upload post NOT OK");
+        console.log(err);
+      });
   };
 
-  const onDrop = (acceptedFiles) => {
-    setFiles(acceptedFiles);
-  };
-
+  const onDrop = (acceptedFiles) => { setFiles(acceptedFiles); };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   const removeFile = (file) => {
     const updatedFiles = files.filter((f) => f !== file);
     setFiles(updatedFiles);
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-
   return (
-    // <div className="container">
-    //   <NavigationBar />
-    //   <div className="container">
-    //     <h2 className="h2 mb-3 fw-normal">Create Post</h2>
-    //     <form onSubmit={handleSubmit}>
-    //       <div className="mb-3">
-    //         <label htmlFor="caption" className="form-label" >Caption</label>
-    //         <textarea
-    //           className="form-control"
-    //           value={postContent}
-    //           onChange={handleInputChange}
-    //           placeholder="Write your post..."
-    //           rows={4}
-    //           id="caption"
-    //         ></textarea>
-    //       </div>
-    //       <div className="mb-3">
-    //         <label htmlFor="img" className="form-label" >Post</label>
-    //         <input className="form-control" type="file" id="img" accept="image/*" onChange={handleImageUpload} />
-    //       </div>
-    //       <MDBBtn outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
-    //         Post
-    //       </MDBBtn>
-    //     </form>
-    //   </div>
-    // </div>
-
     <div>
       <NavBar />
       <MDBContainer className="shadow-5-strong rounded-7 py-5 px-5">
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={uploadImage}>
           <MDBRow className="align-items-center">
             <MDBCol className="h-100">
               <div>
@@ -143,3 +104,32 @@ const CreatePost = () => {
 };
 
 export default CreatePost;
+
+
+
+        // <div className="container">
+      //   <NavigationBar />
+      //   <div className="container">
+      //     <h2 className="h2 mb-3 fw-normal">Create Post</h2>
+      //     <form onSubmit={handleSubmit}>
+      //       <div className="mb-3">
+      //         <label htmlFor="caption" className="form-label" >Caption</label>
+      //         <textarea
+      //           className="form-control"
+      //           value={postContent}
+      //           onChange={handleInputChange}
+      //           placeholder="Write your post..."
+      //           rows={4}
+      //           id="caption"
+      //         ></textarea>
+      //       </div>
+      //       <div className="mb-3">
+      //         <label htmlFor="img" className="form-label" >Post</label>
+      //         <input className="form-control" type="file" id="img" accept="image/*" onChange={handleImageUpload} />
+      //       </div>
+      //       <MDBBtn outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
+      //         Post
+      //       </MDBBtn>
+      //     </form>
+      //   </div>
+      // </div>

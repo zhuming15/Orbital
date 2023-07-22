@@ -1,13 +1,37 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { MDBCol, MDBContainer, MDBRow, MDBCardTitle, MDBIcon, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 
 import NavBar from "../NavBar";
 
 
-function PostFocus(props) {
-  const { pic, caption, title } = props;
+function PostFocus() {
+  const [postFocus, setPostFocus] = useState({});
+  const { pic, caption, title } = postFocus;
+  const { postID } = useParams();
+
+  const fetchPostFocus = async () => {
+    await axios.get(`http://localhost:3002/api/post/${postID}`, {
+      postID: postID
+    })
+      .then((res) => {
+        console.log(res);
+        console.log("Fetch Post Focus OK");
+        setPostFocus(res);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log("Fetch Post Focus NOT OK");
+      })
+  };
+
+  useEffect(() => {
+    // Fetch data from the backend API
+    fetchPostFocus();
+    console.log("Fetching post focus...");
+  }, []);
+
   return (
     <div>
       <NavBar />

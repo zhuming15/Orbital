@@ -18,6 +18,7 @@ import {
   MDBCollapse,
   MDBInputGroup,
 } from 'mdb-react-ui-kit';
+import { useSignOut } from 'react-auth-kit';
 
 // const NavBar = () => {
 //   const navigate = useNavigate();
@@ -54,6 +55,7 @@ function NavBar() {
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("../Asset/image.jpg");
   const [showBasic, setShowBasic] = useState(false);
+  const signOut = useSignOut();
 
   return (
     <div className="sticky-top">
@@ -80,7 +82,7 @@ function NavBar() {
                 <MDBNavbarItem>
                   <MDBNavbarLink active aria-current='page' href='/create'>
                     <MDBBtn className="btn btn-dark btn-rounded">
-                      <i class="far fa-square-plus me-2"></i>
+                      <i className="far fa-square-plus me-2"></i>
                       Create
                     </MDBBtn>
                   </MDBNavbarLink>
@@ -102,7 +104,7 @@ function NavBar() {
                       <li><Link className="dropdown-item" to="/settings"><MDBIcon fas icon="cog me-2" />Setting</Link></li>
                       <li><Link className="dropdown-item" to="/profile"><MDBIcon fas icon="user-circle me-2" />Profile</Link></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="/login"><MDBIcon fas icon="sign-out-alt me-2" />Log out</Link></li>
+                      <li><Link className="dropdown-item" to="/login" onClick={signOut}><MDBIcon fas icon="sign-out-alt me-2" />Log out</Link></li>
                     </ul>
                   </div>
                 </MDBNavbarItem>

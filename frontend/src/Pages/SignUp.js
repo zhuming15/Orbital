@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import BACKEND_URL from "../config";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useSignIn, useAuthUser } from 'react-auth-kit';
+
 
 import Input from "../components/Input";
 import Logo from "../Logo/Logo";
@@ -18,6 +20,34 @@ const validationSchema = Yup.object({
 
 function SignUp() {
   const navigate = useNavigate();
+  const signIn = useSignIn();
+
+  const handleSignUp = async (values) => {
+    await axios.post(`${BACKEND_URL}/api/user`, {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+    })
+      .then((res) => {
+        console.log("SignUp OK");
+        if (signIn({
+          token: res.data.token,
+          expiresIn: res.data.expiresIn,
+          tokenType: "Bearer",
+          authState: res.data.authUserState,
+        })) {
+          console.log("SignUp Auth OK");
+          navigate('/');
+        } else {
+          console.log("SignUp Auth NOT OK");
+        }
+      })
+      .catch((err) => {
+        // Handle signup or login error, e.g., display error message
+        console.log("SignUp Not OK");
+        console.log(err);
+      });
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -26,20 +56,7 @@ function SignUp() {
       password: '',
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      // Handle form submission
-      await axios.post(`${BACKEND_URL}/api/user`, {
-        username: values.username,
-        email: values.email,
-        password: values.password,
-      })
-        .then((response) => {
-          console.log(response);
-          console.log("SignUp OK")
-          navigate("/");
-          console.log(values);
-        });
-    }
+    onSubmit: handleSignUp
   });
 
   return (

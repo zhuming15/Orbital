@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useAuthUser } from "react-auth-kit";
 
 // import Footer from "./Footer";
 import NavigationBar from "../components/NavBar";
 import Posts from "../components/Post/Post";
 import Footer from "../components/Footer";
 
+import BACKEND_URL from "../config";
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
-  const username = "test"; //Problem: username is hardcoded
+  const auth = useAuthUser();
+  const username = auth().username;
 
-  // Fetch data from the backend API
   useEffect(() => {
     // Fetch data from the backend API
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
-    await axios.get(`http://localhost:3002/api/post/${username}`)
+    await axios.get(`${BACKEND_URL}/api/post/${username}`)
       .then((res) => {
         console.log(res);
         console.log("Fetch Post OK");
@@ -42,7 +45,7 @@ const Home = () => {
           <Posts />
           <Posts />
           <Posts />
-          {posts.map(post => (<Posts pic={post.img} caption={post.caption} time={post.time} />))}
+          {posts.map(post => (<Posts picture={post.img} title={post.title} postID={post.postID} />))}
         </div>
       </div>
       <Footer />
