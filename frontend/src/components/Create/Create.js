@@ -31,7 +31,7 @@ const CreatePost = () => {
       username: username,
       title: postTitle,
       content: postContent,
-      tag: tag,
+      tag: tag.split(","),
       image: convertImageToFormData(files[0]),
     })
       .then((res) => {

@@ -9,7 +9,7 @@ const EditPost = () => {
   const [postFocus, setPostFocus] = useState({});
   const { pic, caption, title } = postFocus;
   const { postID } = useParams();
-  const [newContent, setNewContent] = useState('');
+  const [newTags, setNewTags] = useState('');
   const [newCaption, setNewCaption] = useState('');
   const [newPicture, setNewPicture] = useState(null);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const EditPost = () => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('content', newContent);
+      formData.append('tag', newTags.split(','));
       formData.append('caption', newCaption);
       if (newPicture) {
         formData.append('picture', newPicture);
@@ -72,13 +72,13 @@ const EditPost = () => {
                 <MDBCardTitle>Edit Post</MDBCardTitle>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
-                    <label htmlFor="content" className="form-label">Caption</label>
+                    <label htmlFor="caption" className="form-label">Caption</label>
                     <textarea
                       className="form-control"
-                      id="content"
+                      id="caption"
                       rows="5"
-                      value={newContent}
-                      onChange={(e) => setNewContent(e.target.value)}
+                      value={newCaption}
+                      onChange={(e) => setNewCaption(e.target.value)}
                       required
                     />
                   </div>
@@ -88,8 +88,8 @@ const EditPost = () => {
                       type="text"
                       className="form-control"
                       id="caption"
-                      value={newCaption}
-                      onChange={(e) => setNewCaption(e.target.value)}
+                      value={newTags}
+                      onChange={(e) => setNewTags(e.target.value)}
                       required
                     />
                   </div>
