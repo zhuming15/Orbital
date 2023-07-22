@@ -55,7 +55,13 @@ function NavBar() {
   const [username, setUsername] = useState("");
   const [profilePic, setProfilePic] = useState("../Asset/image.jpg");
   const [showBasic, setShowBasic] = useState(false);
+  const [searchKeyWord, setSearchKeyWord] = useState("");
   const signOut = useSignOut();
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    return navigate(`/search/${searchKeyWord}`);
+  }
 
   return (
     <div className="sticky-top">
@@ -89,8 +95,10 @@ function NavBar() {
                 </MDBNavbarItem>
 
                 <MDBNavbarItem className="mr-auto col-lg-9 my-2">
-                  <form className="mb-lg-0" role="search">
-                    <input type="search" className="form-control  py-2" placeholder="Search..." aria-label="Search" />
+                  <form className="mb-lg-0" role="search" onSubmit={handleSearch}>
+                    <input type="search" className="form-control py-2" value={searchKeyWord} onChange={(e) => {
+                      setSearchKeyWord(e.target.value)
+                    }} placeholder="Search..." aria-label="Search" />
                   </form>
                 </MDBNavbarItem>
 

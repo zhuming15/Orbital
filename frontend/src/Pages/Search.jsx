@@ -1,12 +1,13 @@
 import axios from "axios";
-import React, { useParams, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import User from "../components/User";
 import Post from "../components/Post/Post";
 import NavBar from "../components/NavBar";
 import BACKEND_URL from "../config";
 
 function Search() {
-  const searchKeyWord = useParams();
+  const { searchKeyWord } = useParams();
   const [postResult, setPostResult] = useState([]);
   const [userResult, setUserResult] = useState([]);
 
