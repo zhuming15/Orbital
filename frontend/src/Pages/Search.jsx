@@ -1,20 +1,20 @@
 import axios from "axios";
-import React, { useParams, useState } from "react";
+import React, { useParams, useState, useEffect } from "react";
 import User from "../components/User";
-import Post from "../components/Post";
+import Post from "../components/Post/Post";
 import NavBar from "../components/NavBar";
 import BACKEND_URL from "../config";
 
 function Search() {
   const searchKeyWord = useParams();
-  const [postResult, setpostResult] = useState([]);
+  const [postResult, setPostResult] = useState([]);
   const [userResult, setUserResult] = useState([]);
 
   const fecthPost = async (e) => {
     await axios.get(`${BACKEND_URL}/api/search/${searchKeyWord}`)
       .then((res) => {
         console.log('Fetch search result OK');
-        setResult(res);
+        setPostResult(res);
       })
       .catch((err) => {
         console.log("Fetch search result NOT OK");
@@ -46,3 +46,5 @@ function Search() {
     </div>
   )
 }
+
+export default Search;

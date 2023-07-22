@@ -1,5 +1,5 @@
-import { MDBContainer } from "mdb-react-ui-kit";
 import React from "react";
+import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardImage, MDBCardBody, MDBCardTitle, MDBCardText } from 'mdb-react-ui-kit';
 
 function User(props) {
   const { username, profilePicture } = props;

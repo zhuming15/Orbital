@@ -6,7 +6,6 @@ import axios from 'axios';
 import NavBar from '../components/NavBar';
 import Post from '../components/Post/Post';
 import BACKEND_URL from '../config';
-import { post } from '../../../backend/components/search';
 
 function UserProfile() {
   const auth = useAuthUser();
@@ -80,6 +79,8 @@ function UserProfile() {
     setPostNumber(posts.length);
   }, []);
 
+
+
   return (
     <div className="gradient-custom-2">
       <NavBar />
@@ -92,7 +93,7 @@ function UserProfile() {
                   <MDBCardImage src={profilePictur || "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"}
                     alt="Generic placeholder image" className="mt-4 mb-2 img-thumbnail" fluid style={{ width: '150px', zIndex: '1' }} />
                   <MDBBtn outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
-                    {followBtnState}
+                    Follow
                   </MDBBtn>
                 </div>
                 <div className="ms-3" style={{ marginTop: '130px' }}>
@@ -127,7 +128,7 @@ function UserProfile() {
                   <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
                 </div>
                 <div className="d-flex flex-column">
-                  {posts.map((post) => { <Post /> })}
+                  {posts.map((post) => { <Post picture={post.pic} title={post.title} postID={post.id} /> })}
                   <Post />
                   <Post />
                 </div>
