@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignOut, useAuthUser } from 'react-auth-kit';
+import { MDBCol, MDBContainer, MDBRow, MDBInput, MDBCard, MDBIcon, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
+import { useDropzone } from 'react-dropzone';
 import axios from "axios";
 import BACKEND_URL from "../config";
 
@@ -29,7 +31,7 @@ const UserSettings = () => {
       .then((res) => {
         console.log(res);
         console.log("Fetch Profile Pic OK");
-        setNewProfilePicture(res);
+        setFiles(res);
       })
       .catch(err => {
         console.log(err);
@@ -63,13 +65,20 @@ const UserSettings = () => {
   const [password, setPassword] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [newBio, setNewBio] = useState("");
-  const [newProfilePicture, setNewProfilePicture] = useState("");
+  const [files, setFiles] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [currentPage, setCurrentPage] = useState("settings");
   const navigate = useNavigate();
+
+  const onDrop = (acceptedFiles) => { setFiles(acceptedFiles); };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const removeFile = (file) => {
+    const updatedFiles = files.filter((f) => f !== file);
+    setFiles(updatedFiles);
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -88,7 +97,7 @@ const UserSettings = () => {
   };
 
   const handleProfilePictureChange = (e) => {
-    setNewProfilePicture(e.target.value);
+    setFiles(e.target.value);
   };
 
   const handleUsernameChange = (e) => {
@@ -211,15 +220,27 @@ const UserSettings = () => {
         </button>
         <h2>Edit Profile</h2>
         <form onSubmit={saveEditProfilePage}>
-          <label htmlFor="profile picture" className="form-text">Username:</label>
-          <input
-            className="form-control"
-            type="image"
-            id="profile-picture"
-            name="profile-picture"
-            value={newProfilePicture}
-            onChange={handleProfilePictureChange}
-          />
+          <h7>Upload New Profile Picture</h7>
+          {files.length > 0 ? (
+            <div>
+              <h6>Uploaded Image:</h6>
+              <div className="image-container">
+                {files.map((file) => (
+                  <div key={file.name} className="uploaded-image">
+                    <img src={URL.createObjectURL(file)} alt={file.name} height="500" width="500" style={{ objectFit: "contain" }} />
+                    <MDBIcon icon="times-circle" className="delete-icon ms-3" size="2x" onClick={() => removeFile(file)} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`}>
+              <input {...getInputProps()} />
+              <div className="d-flex flex-column justify-content-center align-items-center">
+                <MDBIcon fas icon="photo-video" size="3x" className="my-3" />
+                <p className="my-3">Drag and drop an image here, or click to select an image</p>
+              </div>
+            </div>)}
           <label htmlFor="username" className="form-text">Username:</label>
           <input
             className="form-control"
@@ -244,7 +265,7 @@ const UserSettings = () => {
             type="file"
             id="profilePicture"
             name="profilePicture"
-            value={newProfilePicture}
+            value={files}
             onChange={handleProfilePictureChange}
           />
           <button type="submit" className="btn btn-primary my-3">Update Profile</button>
