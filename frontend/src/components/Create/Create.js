@@ -36,11 +36,24 @@ const CreatePost = () => {
     })
       .then((res) => {
         console.log("Upload post OK");
-        navigate("/");
+        let r = window.confirm("You want to upload the post?");
+        if (r === true) {
+          alert("Post uploaded!");
+          navigate("/");
+        } else {
+          alert("Post not uploaded!");
+        }
       })
       .catch((err) => {
         console.log("Upload post NOT OK");
         console.log(err);
+        let r = window.confirm("You want to upload the post?");
+        if (r === true) {
+          alert("Post uploaded!");
+          navigate("/");
+        } else {
+          alert("Post not uploaded!");
+        }
       });
   };
 
@@ -82,9 +95,9 @@ const CreatePost = () => {
               </div>
             </MDBCol>
             <MDBCol>
-              <MDBRow className="my-2">
+              {/* <MDBRow className="my-2">
                 <MDBInput label="Title" type="text" id="title" value={postTitle} onChange={(e) => setPostTitle(e.target.value)} />
-              </MDBRow>
+              </MDBRow> */}
               <MDBRow className="my-2">
                 <MDBInput label="Caption" type="text" id="caption" value={postContent} onChange={(e) => setPostContent(e.target.value)} />
               </MDBRow>

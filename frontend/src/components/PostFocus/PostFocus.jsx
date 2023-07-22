@@ -11,7 +11,7 @@ import BACKEND_URL from "../../config";
 
 function PostFocus() {
   const [postFocus, setPostFocus] = useState({});
-  const { pic, caption, title } = postFocus;
+  const { pic, caption, picture_name, datetime } = postFocus;
   const { postID } = useParams();
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -20,9 +20,7 @@ function PostFocus() {
   const navigate = useNavigate();
 
   const fetchPostFocus = async () => {
-    await axios.get(`${BACKEND_URL}/api/post/${postID}`, {
-      postID: postID
-    })
+    await axios.get(`${BACKEND_URL}/api/post/${username}/${picture_name}`)
       .then((res) => {
         console.log(res);
         console.log("Fetch Post Focus OK");
@@ -58,6 +56,7 @@ function PostFocus() {
 
   const edit = () => {
     console.log("Edit OK");
+    navigate(`/edit/${postID}`);
   };
 
   const deletePost = async () => {
@@ -68,12 +67,22 @@ function PostFocus() {
       .then((res) => {
         console.log(res);
         console.log("Delete OK");
-        navigate("/");
+        let r = window.confirm("Are you sure you want to delete this post?");
+        if (r == true) {
+          navigate("/");
+        } else {
+          navigate(`/posts/${postID}`);
+        }
       })
       .catch(err => {
         console.log(err);
         console.log("Delete NOT OK");
-        navigate("/");
+        let r = window.confirm("Are you sure you want to delete this post?");
+        if (r == true) {
+          navigate("/");
+        } else {
+          navigate(`/posts/${postID}`);
+        }
       })
   };
 
@@ -93,12 +102,12 @@ function PostFocus() {
             </MDBCol>
             <MDBCol md="8">
               <MDBCardBody>
-                <MDBCardTitle>{"title" || title}</MDBCardTitle>
+                {/* <MDBCardTitle>{"picture_name" || picture_name}</MDBCardTitle> */}
                 <MDBCardText>
                   {"content and caption" || caption}
                 </MDBCardText>
                 <MDBCardText>
-                  <small className='text-muted'>Last updated 3 mins ago</small>
+                  <small className='text-muted'>Last updated {datetime}</small>
                 </MDBCardText>
                 <MDBBtn onClick={like} className="me-2" outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
                   {isLiked ? <MDBIcon fas icon="heart me-2" /> : <MDBIcon far icon="heart me-2" />}Like
@@ -117,7 +126,7 @@ function PostFocus() {
           </MDBRow>
         </MDBCard>
       </MDBContainer>
-    </div >
+    </div>
   )
 }
 

@@ -15,6 +15,7 @@ import About from "./Pages/About";
 import Help from "./Pages/Help";
 import Create from "./components/Create/Create";
 import PostFocus from "./components/PostFocus/PostFocus";
+import EditPost from "./components/EditPost";
 
 
 
@@ -72,6 +73,11 @@ const App = () => {
           <Route path="/search/:searchKeyWord" element={
             <RequireAuth loginPath={'login'}>
               <Search />
+            </RequireAuth>}
+          />
+          <Route path="/edit/:postID" element={
+            <RequireAuth loginPath={'login'}>
+              <EditPost />
             </RequireAuth>}
           />
           <Route path="/about" element={<About />} />

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MDBCardImage, MDBRipple, MDBCard } from "mdb-react-ui-kit";
 
 function Post(props) {
-  const { picture, title, postID } = props
+  const { picture, picture_name, postID } = props
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -20,7 +20,7 @@ function Post(props) {
     >
       <MDBCard>
         <MDBCardImage src={"https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp" || picture}
-          alt={"image-1" || title} className="w-100 rounded-3" />
+          alt={"image-1" || picture_name} className="w-100 rounded-3" />
         <a href='#!'>
           <div className='mask' style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
         </a>

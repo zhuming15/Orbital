@@ -124,9 +124,13 @@ const UserSettings = () => {
       setSuccessMessage("User settings updated successfully.");
     }
 
-    // Clear input fields
-    setNewEmail("");
-    setNewPassword("");
+    let r = window.confirm("Are you sure?");
+    if (r === true) {
+      alert("Settings updated!");
+      navigate("/");
+    } else {
+      return;
+    }
   };
 
   const renderChangeEmailPage = () => {
@@ -200,16 +204,9 @@ const UserSettings = () => {
   };
 
   const renderCompleteDeleteAccountPage = () => {
-    return (
-      <div className="container">
-        <button className="btn btn-secondary my-3" onClick={() => handlePageChange("settings")}>
-          Back
-        </button>
-        <h2>Account Deleted</h2>
-        <p>Your account has been deleted.</p>
-        <Link to="/signup">Sign up</Link>
-      </div>
-    );
+    signOut();
+    navigate("/login");
+    alert("Account deleted!");
   };
 
   const renderEditProfilePage = () => {
