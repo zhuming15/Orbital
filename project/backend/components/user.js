@@ -1,4 +1,4 @@
-require('../dotenv').config();
+require('dotenv').config();
 
 const planetscale = require('../config/planetscale');
 const express = require('express');
@@ -56,9 +56,14 @@ router.route('/api/user')
                   if (err) {
                     return res.status(500).json({ error: 'Error creating followers table' });
                   }
-                  const user = { user: username };
-                  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-                  return res.status(200).json({ accessToken: accessToken });
+                  const user = { email: email, username: username };
+                  const jwtToken = jwt.sign(user, 'privatekey', { expiresIn: '1h' }, (err, token) => {
+                    if (err) {
+                      return res.status(500).json({ error: 'Error creating token' });
+                    }
+                    return token;
+                  });
+                  return res.status(200).json({ message: 'Signup successful', token: jwtToken, expiresIn: 3600, authUserState: { email: email, username: username } });
                 });
               }
             });

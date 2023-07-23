@@ -1,4 +1,4 @@
-require("../dotenv").config();
+require("dotenv").config();
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 const { v1: uuidv1 } = require("uuid");
@@ -21,7 +21,7 @@ const addImage = async (image) => {
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   // Create a unique name for the blob
-  const blobName = 'post' + uuidv1() + '.jpg';
+  const blobName = 'post' + uuidv1();
 
   // Get a block blob client
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
@@ -32,13 +32,13 @@ const addImage = async (image) => {
   );
 
   // Upload data to the blob
-  const uploadBlobResponse = await blockBlobClient.upload(image.path);
-  console.log(
+  const options = { blobHTTPHeaders: { blobContentType: "image/jpeg" } }; // Set the content type if it's a JPEG image (change accordingly for other image formats)
+  const uploadBlobResponse = await blockBlobClient.upload(image.path, image.size, options);  console.log(
     `Blob was uploaded successfully. requestId: ${uploadBlobResponse.requestId}`
   );
 
   // Remove the temporary file from the server
-  fs.unlinkSync(image.path);
+  //fs.unlinkSync(image.path);
 
   return blobName;
 }
@@ -51,9 +51,10 @@ const retrieveImage = async (blobName) => {
   const blobClient = containerClient.getBlockBlobClient(blobName);
 
   // Download the image as a buffer
-  const imageBuffer = await blobClient.downloadToBuffer();
+  // const imageBuffer = await blobClient.downloadToBuffer();
 
-  return imageBuffer;
+  await blobClient.downloadToFile(`./image/${blobName}`);
+  return ;
 }
 
 

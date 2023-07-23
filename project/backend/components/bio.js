@@ -1,4 +1,4 @@
-require('../dotenv').config();
+require('dotenv').config();
 
 const planetscale = require('../config/planetscale');
 const express = require('express');

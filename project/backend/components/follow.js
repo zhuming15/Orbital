@@ -2,8 +2,6 @@ const planetscale = require('../config/planetscale');
 const express = require('express');
 const router = express.Router();
 
-const axios = require('axios');
-
 
 router.route('/api/follow/:username1/:username2')
 
