@@ -19,13 +19,13 @@ function UserProfile() {
 
 
   // const { profilePictur, bio, name, username, postNumber, followerNumber, followingNumber } = 
-  const fetchFollowerNumber = async () => await axios(`${BACKEND_URL}/api/following /${username}`, {
+  const fetchFollowerNumber = async () => await axios(`${BACKEND_URL}/api/following/${username}`, {
     username: username
   })
     .then((res) => {
       console.log(res);
       console.log("Fetch Following Number OK");
-      setFollowingNumber(res);
+      setFollowingNumber(res.data);
     })
     .catch(err => {
       console.log(err);
@@ -38,7 +38,7 @@ function UserProfile() {
     .then((res) => {
       console.log(res);
       console.log("Fetch Follower Number OK");
-      setFollowerNumber(res);
+      setFollowerNumber(res.data);
     })
     .catch(err => {
       console.log(err);
@@ -51,7 +51,7 @@ function UserProfile() {
     .then((res) => {
       console.log(res);
       console.log("Fetch Profile Pic OK");
-      setProfile(res);
+      setProfile(res.data);
     })
     .catch(err => {
       console.log(err);
@@ -64,7 +64,7 @@ function UserProfile() {
     .then((res) => {
       console.log(res);
       console.log("Fetch Post OK");
-      setPostNumber(res);
+      setPostNumber(res.data);
     })
     .catch(err => {
       console.log(err);

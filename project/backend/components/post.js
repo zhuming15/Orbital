@@ -2,7 +2,6 @@ const azureBlob  = require('../config/azureBlob');
 const planetscale = require('../config/planetscale');
 const express = require('express');
 const multer = require('multer');
-const sharp = require('sharp');
 const fs = require('fs');
 const router = express.Router();
 
@@ -19,24 +18,19 @@ router.post('/api/post/:username', upload.single('image'), async (req, res) => {
     const caption = req.body.content;
     const tags = req.body.tag;
     const image = req.file;
-    console.log(image);
 
     if (!req.file) {
-        console.log("1");
         return res.status(500).json({ message: 'Image file missing.' });
     }
 
     // Read the image file and convert it to a Buffer
     const buffer = fs.readFileSync(image.path);
 
-    // Use sharp to convert the Buffer to a JPG image
-    const outputPath = `uploads/${image.filename.replace(/\.[^/.]+$/, '.jpg')}`;
-    await sharp(buffer)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(outputPath);
+    const picture_name = await azureBlob.addImage(buffer);
 
-    const picture_name = await azureBlob.addImage(image);
+    
+    // Remove the temporary file from the server
+    fs.unlinkSync(image.path);
 
     const tagsJson = JSON.stringify(tags);
     
@@ -93,33 +87,20 @@ router.get('/api/post/:username', (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Error getting post' });
         }
-        // // Loop through the result array and add the new key-value pair to each object
-        // const postsWithImage = result.map( async post => {
-        //     const imageFile = await azureBlob.retrieveImage(post.picture_name);
-        //     // Convert the buffer to a Base64 string
-        //     const imageBase64 = imageFile.toString('base64');
-        //     // You can add any new key-value pair here
-        //     post.file = imageBase64;
-        //     return post;
-        // });
          // Loop through the result array and add the new key-value pair to each object
          const postsWithImage = await Promise.all(result.map(async (post) => {
             const imageFile = await azureBlob.retrieveImage(post.picture_name);
-            // Convert the buffer to a Base64 string
-            //const imageBase64 = imageFile.toString('base64');
-            // You can add any new key-value pair here
-            //post.file = imageFile;
             return post;
         }));
-        console.log(postsWithImage);
+        //console.log(postsWithImage);
         return res.status(200).json( postsWithImage );
     });
 });
 
 // Route to get single post of a user
 router.get('/api/post/:username/:picture_name', (req, res) => {
-    const username = req.body.username;
-    const picture_name = req.body.picture_name;
+    const username = req.params.username;
+    const picture_name = req.params.picture_name;
     const post_of = 'post_of_' + username;
     const query = `SELECT * FROM ${post_of} WHERE picture_name = ?`;
 
@@ -128,12 +109,8 @@ router.get('/api/post/:username/:picture_name', (req, res) => {
             return res.status(500).json({ error: 'Error getting post' });
         }
         // Loop through the result array and add the new key-value pair to each object
-        const postsWithImage = result.map( post => {
-            const imageFile = azureBlob.retrieveImage(post.picture_name);
-            // Convert the buffer to a Base64 string
-            const imageBase64 = imageFile.toString('base64');
-            // You can add any new key-value pair here
-            post.file = imageBase64;
+        const postsWithImage = result.map( async post => {
+            const imageFile = await azureBlob.retrieveImage(post.picture_name);
             return post;
         });
         console.log(postsWithImage);

@@ -6,22 +6,20 @@ const router = express.Router();
 
 const upload = multer({ dest: 'uploads/' }); // Temporary storage for the uploaded image
 
-router.route('/api/profilePicture/:username')
+router.route('/api/profile-picture/:username')
 
   // Route for getting profile picture
   .get( (req, res) => {
     const username = req.params.username;
     const query = `SELECT picture_name FROM profilePicture WHERE created_by = ?`
 
-    planetscale.query(query, [username], (err, result) => {
+    planetscale.query(query, [username], async (err, result) => {
       if (err) {
         return res.status(500).json({ error: 'error getting profile picture' });
       }
       const picture_name = result[0].picture_name;
-      const imageFile = azureBlob.retrieveImage(picture_name);
-      // Convert the buffer to a Base64 string
-      const imageBase64 = imageFile.toString('base64');
-      return res.status(200).json( imageBase64 );
+      const imageFile = await azureBlob.retrieveImage(picture_name);
+      return res.status(200).json( result );
     });
   })
 

@@ -3,7 +3,6 @@ require("dotenv").config();
 const { BlobServiceClient } = require("@azure/storage-blob");
 const { v1: uuidv1 } = require("uuid");
 const { DefaultAzureCredential } = require('@azure/identity');
-const fs = require('fs');
 
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
 if (!accountName) return Error('Azure Storage accountName not found');
@@ -17,6 +16,7 @@ const containerName = 'orbital-limittest-posts';
 
 
 const addImage = async (image) => {
+  //console.log(image);
   // Get a reference to a container
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
@@ -33,12 +33,10 @@ const addImage = async (image) => {
 
   // Upload data to the blob
   const options = { blobHTTPHeaders: { blobContentType: "image/jpeg" } }; // Set the content type if it's a JPEG image (change accordingly for other image formats)
-  const uploadBlobResponse = await blockBlobClient.upload(image.path, image.size, options);  console.log(
+  const uploadBlobResponse = await blockBlobClient.uploadData(image, options);  
+  console.log(
     `Blob was uploaded successfully. requestId: ${uploadBlobResponse.requestId}`
   );
-
-  // Remove the temporary file from the server
-  //fs.unlinkSync(image.path);
 
   return blobName;
 }

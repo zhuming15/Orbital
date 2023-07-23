@@ -19,7 +19,7 @@ function PostFocus() {
       .then((res) => {
         console.log(res);
         console.log("Fetch Post Focus OK");
-        setPostFocus(res);
+        setPostFocus(res.data);
       })
       .catch(err => {
         console.log(err);
