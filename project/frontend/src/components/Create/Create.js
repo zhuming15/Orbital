@@ -31,7 +31,7 @@ const CreatePost = () => {
     formData.append("username", username);
     formData.append("title", postTitle);
     formData.append("content", postContent);
-    formData.append("tag", tag);
+    formData.append("tag", tag.split(","));
     formData.append("image", files[0], files[0].name);
 
     // Handle form submission logic here
@@ -75,7 +75,7 @@ const CreatePost = () => {
                   </div>
                 ) : (
                   <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`}>
-                    <input {...getInputProps()} />
+                    <input {...getInputProps()} required/>
                     <div className="d-flex flex-column justify-content-center align-items-center">
                       <MDBIcon fas icon="photo-video" size="3x" className="my-3" />
                       <p className="my-3">Drag and drop an image here, or click to select an image</p>
@@ -85,13 +85,13 @@ const CreatePost = () => {
             </MDBCol>
             <MDBCol>
               <MDBRow className="my-2">
-                <MDBInput label="Title" type="text" id="title" value={postTitle} onChange={(e) => setPostTitle(e.target.value)} />
+                <MDBInput label="Title" type="text" id="title" value={postTitle} onChange={(e) => setPostTitle(e.target.value)} required/>
               </MDBRow>
               <MDBRow className="my-2">
-                <MDBInput label="Caption" type="text" id="caption" value={postContent} onChange={(e) => setPostContent(e.target.value)} />
+                <MDBInput label="Caption" type="text" id="caption" value={postContent} onChange={(e) => setPostContent(e.target.value)} required/>
               </MDBRow>
               <MDBRow className="my-2">
-                <MDBInput label="Tag" type="text" id="tag" value={tag} onChange={(e) => setTag(e.target.value)} />
+                <MDBInput label="Tag" type="text" id="tag" value={tag} onChange={(e) => setTag(e.target.value)} required/>
               </MDBRow>
 
               <MDBBtn color="btn btn-dark" type="submit">

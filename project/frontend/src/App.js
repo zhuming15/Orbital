@@ -15,23 +15,9 @@ import About from "./Pages/About";
 import Help from "./Pages/Help";
 import Create from "./components/Create/Create";
 import PostFocus from "./components/PostFocus/PostFocus";
-
-
-
-const AuthWrapper = ({ element }) => {
-  // Check if the user is authenticated using the auth object from react-auth-kit
-  // For example, you can use the auth.isAuthenticated() function
-  const isAuthenticated = useIsAuthenticated()
-
-  if (isAuthenticated()) {
-    // Redirect unauthenticated users to the login page or any other appropriate action
-    return <Navigate to="/login" />;
-  }
-
-  // If the user is authenticated, render the element (component)
-  return element;
-};
-
+import Edit from "./Pages/Edit";
+import ChangePassword from "./Pages/ChangePassword";
+import Delete from "./Pages/Delete";
 
 const App = () => {
 
@@ -58,7 +44,7 @@ const App = () => {
               <PostFocus />
             </RequireAuth>}
           />
-          <Route path="/profile" element={
+          <Route path="/profile/:username" element={
             <RequireAuth loginPath={'/login'}>
               <UserProfile />
             </RequireAuth>}
@@ -67,6 +53,21 @@ const App = () => {
           <Route path="/settings" element={
             <RequireAuth loginPath={'/login'}>
               <Setting />
+            </RequireAuth>}
+          />
+          <Route path="/settings/edit" element={
+            <RequireAuth loginPath={'/login'}>
+              <Edit />
+            </RequireAuth>}
+          />
+          <Route path="/settings/change-password" element={
+            <RequireAuth loginPath={'/login'}>
+              <ChangePassword />
+            </RequireAuth>}
+          />
+          <Route path="/settings/delete" element={
+            <RequireAuth loginPath={'/login'}>
+              <Delete />
             </RequireAuth>}
           />
           <Route path="/search/:searchKeyWord" element={

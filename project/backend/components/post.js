@@ -92,7 +92,7 @@ router.get('/api/post/:username', (req, res) => {
             const imageFile = await azureBlob.retrieveImage(post.picture_name);
             return post;
         }));
-        //console.log(postsWithImage);
+       // console.log(postsWithImage);
         return res.status(200).json( postsWithImage );
     });
 });
@@ -104,16 +104,16 @@ router.get('/api/post/:username/:picture_name', (req, res) => {
     const post_of = 'post_of_' + username;
     const query = `SELECT * FROM ${post_of} WHERE picture_name = ?`;
 
-    planetscale.query(query, [picture_name], (err, result) => {
+    planetscale.query(query, [picture_name], async (err, result) => {
         if (err) {
             return res.status(500).json({ error: 'Error getting post' });
         }
-        // Loop through the result array and add the new key-value pair to each object
-        const postsWithImage = result.map( async post => {
+         // Loop through the result array and add the new key-value pair to each object
+         const postsWithImage = await Promise.all(result.map(async (post) => {
             const imageFile = await azureBlob.retrieveImage(post.picture_name);
             return post;
-        });
-        console.log(postsWithImage);
+        }));
+        // console.log(postsWithImage);
         return res.status(200).json( postsWithImage );
     });
 });

@@ -3,7 +3,6 @@ require('dotenv').config();
 const planetscale = require('../config/planetscale');
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 
 router.route('/api/bio/:username')
 
@@ -18,7 +17,7 @@ router.route('/api/bio/:username')
         } else if (result[0].bio === null) {
             return res.status(401).json({ error: 'no bio' });
         }
-        return res.status(200).json({ result });
+        return res.status(200).json( result );
     });
   })
 

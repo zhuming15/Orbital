@@ -10,27 +10,47 @@ router.get('/api/recommendation/:username', (req, res) => {
 
     const userPreferenceQuery = `SELECT preference FROM users WHERE username = ?`;
 
-    const getPostsQuery = `SELECT picture_name, tags FROM post_of_%`;
+    // Query to retrieve table names that contain the substring 'post'
+    const tableNamesQuery = `SELECT table_name
+                             FROM information_schema.tables
+                             WHERE table_name LIKE '%post_of_%'`;
 
-    planetscale.query(userPreferenceQuery, [username], (err, result) => {
+    planetscale.query(userPreferenceQuery, [username], (err, resp) => {
       if (err) {
         return res.status(500).json({ error: "Error getting user preference" });
       }
-      planetscale.query(getPostsQuery, (err, results) => {
+      // console.log(resp);
+      // Execute the query to retrieve table names
+      planetscale.query(tableNamesQuery, (err, result) => {
         if (err) {
-          return res.status(500).json({ error: "Error getting posts" });
+            return res.status(500).json({ error: 'Error retrieving table names:' });
+        } else {
+            // Construct the UNION query dynamically
+            let unionQuery = '';
+            result.forEach((row, index) => {
+            const tableName = row.TABLE_NAME;
+            const selectQuery = `SELECT * FROM ${tableName}`;
+            unionQuery += index === 0 ? selectQuery : ` UNION ${selectQuery}`;
+            });
+
+            // Execute the UNION query
+            planetscale.query(unionQuery, async (err, result) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Error executing UNION query:' });
+                    // Handle the error
+                } else {
+                    // console.log(result);
+                    const rankedPosts = rankPosts(result, resp);
+                    // Loop through the result array and add the new key-value pair to each object
+                    const postsWithImage = await Promise.all(rankedPosts.map(async (post) => {
+                        const imageFile = await azureBlob.retrieveImage(post.picture_name);
+                        return post;
+                    }));
+                    // console.log(postsWithImage);
+                    return res.status(200).json(postsWithImage);
+                }
+            });
         }
-        const rankedPosts = rankPosts(results, result);
-        // Loop through the result array and add the new key-value pair to each object
-        const postsWithImage = rankedPosts.map( post => {
-            const imageFile = azureBlob.retrieveImage(post.picture_name);
-            // Convert the buffer to a Base64 string
-            const imageBase64 = imageFile.toString('base64');
-            // You can add any new key-value pair here
-            post.file = imageBase64;
-            return post;
-        });
-        return res.status(200).json( postsWithImage );
       });
     });
 });
@@ -38,27 +58,27 @@ router.get('/api/recommendation/:username', (req, res) => {
 module.exports = router;
 
 
-function rankPosts(post, userPreference) {
-    // Parse JSON data into JavaScript objects
-    const posts = JSON.parse(post);
-    const userPreferences = JSON.parse(userPreference);
-    
+function rankPosts(posts, userPreferences) {
     const rankedPosts = [];
   
     for (const post of posts) {
-      const postId = post.id;
-      const postFeatures = JSON.parse(post.feature);
+      const picture_name = post.picture_name;
+      const caption = post.caption;
+      const tags = post.tags;
+      const datetime = post.datetime;
+      const likes = post.likes;
   
       let rankValue = 0;
       for (const feature in userPreferences) {
-        if (userPreferences.hasOwnProperty(feature) && postFeatures.includes(feature)) {
+        if (userPreferences.hasOwnProperty(feature) && post.tags.includes(feature)) {
           rankValue += userPreferences[feature];
         }
       }
   
-      rankedPosts.push({ postId, rankValue });
+      rankedPosts.push({ picture_name, caption, tags, datetime, likes, rankValue });
     }
   
     rankedPosts.sort((a, b) => b.rankValue - a.rankValue);
+    // console.log(rankedPosts);
     return rankedPosts;
 }

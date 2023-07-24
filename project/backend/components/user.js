@@ -75,35 +75,24 @@ router.route('/api/user')
 
   // Route for deleting account
   .delete((req, res) => {
-    const email = req.params.email;
+    const email = req.body.email;
     const query = `DELETE FROM users WHERE email = ?`;
+    // console.log(email);
 
-    planetscale.query(query, email, (err, result) => {
+    planetscale.query(query, [email], (err, result) => {
       if (err) {
+        // console.log(err);
         return res.status(500).json({ error: 'An error occurred while deleting the account' });
       }
+      // console.log("1");
       return res.status(200).json({ message: 'Account deleted successfully' });
     });
   })
-
-  // Route for reset password
-  .put((req, res) => {
-    const email = req.params.email;
-    const password = req.params.password;
-    const query = `UPDATE users SET password = ? WHERE email = ? `;
-
-    planetscale.query(query, [password, email], (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: 'An error occurred while resetting password' });
-      }
-      return res.status(200).json({ message: 'password reset successfully' });
-    });
-  })
-  ;
+;
 
 
 // Route to check if account exist
-router.get('/api/get-email/:email', (req, res) => {
+router.get('/api/email/:email', (req, res) => {
   const email = req.body.email;
   const query = `SELECT * FROM users WHERE email = ?`;
 

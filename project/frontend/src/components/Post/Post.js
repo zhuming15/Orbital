@@ -4,13 +4,13 @@ import { MDBCardImage, MDBRipple, MDBCard } from "mdb-react-ui-kit";
 import BACKEND_URL from "../../config";
 
 function Post(props) {
-  const { picture, title, postID } = props
+  const { picture_name, caption, tags, datetime } = props.props;  
   const navigate = useNavigate();
 
   const handleClick = () => {
     // perform focus logic
-    return navigate(`/posts/${postID}`);
-  }
+    return navigate(`/posts/${picture_name}`, { state: { caption:caption, tags:tags, datetime:datetime } });
+    }
 
   return (
     <MDBRipple
@@ -20,8 +20,8 @@ function Post(props) {
       onClick={handleClick}
     >
       <MDBCard>
-        <MDBCardImage src = { BACKEND_URL + "/image/" + picture }
-          alt={"image-1" || title} className="w-100 rounded-3" />
+        <MDBCardImage src = { BACKEND_URL + "/image/" + picture_name }
+          alt={"image-1" || picture_name} className="w-100 rounded-3" />
         <a href='#!'>
           <div className='mask' style={{ backgroundColor: 'rgba(251, 251, 251, 0.2)' }}></div>
         </a>

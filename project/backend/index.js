@@ -18,6 +18,7 @@ const comment = require('./components/comment');
 const recommendation = require('./components/recommendation');
 const bio = require('./components/bio');
 const image = require('./components/image');
+const changePassword = require('./components/changePassword');
 
 app.use(user);
 app.use(search);
@@ -30,6 +31,7 @@ app.use(comment);
 app.use(recommendation);
 app.use(bio);
 app.use(image);
+app.use(changePassword);
 
 const PORT = 3002;
 
