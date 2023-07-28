@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import BACKEND_URL from "../config";
 
 import Logo from "../Logo/Logo";
 import Input from "../components/Input";
@@ -23,7 +24,7 @@ const ForgotPassword = () => {
     event.preventDefault();
 
     // Perform reset password logic here, such as sending a reset email to the provided email address
-    await axios.put('http://localhost:3002/api/user', { email: email, password: 123 })
+    await axios.put(BACKEND_URL + '/api/user', { email: email, password: 123 })
       .then(res => {
         console.log(res);
         console.log("Forgot Password OK");

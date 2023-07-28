@@ -1,6 +1,7 @@
 import axios from 'axios';
+import BACKEND_URL from "../config";
 
-const url = 'http://localhost:3002';
+const url = BACKEND_URL;
 
 // create new account
 const addNewUser = async (email, username, password) => {

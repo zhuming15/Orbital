@@ -7,12 +7,13 @@ const { DefaultAzureCredential } = require('@azure/identity');
 const accountName = process.env.AZURE_STORAGE_ACCOUNT_NAME;
 if (!accountName) return Error('Azure Storage accountName not found');
 
+const userAssignedUserID = process.env.USER_ASSIGNED_USER_ID;
 const blobServiceClient = new BlobServiceClient(
   `https://${accountName}.blob.core.windows.net`,
-  new DefaultAzureCredential()
+  new DefaultAzureCredential({ ManagedIdentityClientID : userAssignedUserID })
 );
 
-const containerName = 'orbital-limittest-posts';
+const containerName = process.env.CONTAINER_NAME;
 
 
 const addImage = async (image) => {

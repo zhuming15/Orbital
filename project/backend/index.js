@@ -33,10 +33,8 @@ app.use(bio);
 app.use(image);
 app.use(changePassword);
 
-const PORT = 3002;
-
-app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`);
+app.listen('https://limittest-backend.azurewebsites.net', () => {
+    console.log(`Server is running on https://limittest-backend.azurewebsites.net`);
 });
 
 module.exports = router;

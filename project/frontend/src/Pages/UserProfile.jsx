@@ -174,7 +174,7 @@ function UserProfile() {
                   <MDBCardText className="mb-0"><a href="#!" className="text-muted">Show all</a></MDBCardText>
                 </div>
                 <div className="d-flex flex-column">
-                  {posts.map((post) => (<Post title={post.picture_name} postID={post.picture_name} />))}
+                  {posts.map((post) => (<Post props={post} />))}
                 </div>
               </MDBCardBody>
             </MDBCard>

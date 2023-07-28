@@ -1,11 +1,12 @@
+require("dotenv").config();
 const mysql = require('mysql2');
 
 // Creating a connection
 const planetscale = mysql.createConnection({
-  host: 'aws.connect.psdb.cloud',
-  user: 'lh8dzd33eoy0mrlf5jx3',
-  password: 'pscale_pw_zhDbFsY97GESqb678oAtusj0URcj1Ne621LNXaZTjSI',
-  database: 'orbital',
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
   ssl: { rejectUnauthorized: true },
   multipleStatements: true,
 });

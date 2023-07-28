@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { MDBCol, MDBContainer, MDBRow, MDBCardTitle, MDBIcon, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 
@@ -9,13 +9,8 @@ import { useAuthUser } from "react-auth-kit";
 
 
 function PostFocus() {
-  const location = useLocation();
-  console.log(location.state.caption);
-  // const [postFocus, setPostFocus] = useState({});
-  // const caption = location.state.caption;
-  // console.log(caption);
-  // const tags = location.state.tags;
-  // const datetime = location.state.datetime;
+  const [postFocus, setPostFocus] = useState({});
+  const {caption, datetime, tags} = postFocus;
   const { postID } = useParams();
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
@@ -23,26 +18,24 @@ function PostFocus() {
   const username = auth().username;
   const navigate = useNavigate();
 
-  // const fetchPostFocus = async () => {
-  //   await axios.get( BACKEND_URL + `/api/post/${postID}`, {
-  //     postID: postID
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //       console.log("Fetch Post Focus OK");
-  //       setPostFocus(res.data);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       console.log("Fetch Post Focus NOT OK");
-  //     })
-  // };
+  const fetchPostFocus = async () => {
+    await axios.get( BACKEND_URL + `/api/singlePost/${postID}`)
+      .then((res) => {
+        console.log(res);
+        console.log("Fetch Post Focus OK");
+        setPostFocus(res.data[0]);
+      })
+      .catch(err => {
+        console.log(err);
+        console.log("Fetch Post Focus NOT OK");
+      })
+  };
 
-  // useEffect(() => {
-  //   // Fetch data from the backend API
-  //   fetchPostFocus();
-  //   console.log("Fetching post focus...");
-  // }, []);
+  useEffect(() => {
+    // Fetch data from the backend API
+    fetchPostFocus();
+    console.log("Fetching post focus...");
+  }, [postID]);
 
    const deletePost = async () => {
       let r = window.confirm("Are you sure you want to delete this post?");
@@ -99,9 +92,7 @@ function PostFocus() {
       setIsSaved(!isSaved);
     };
 
-    
-
-  return (
+return (
     <div>
       <NavBar />
       <MDBContainer>
@@ -113,10 +104,16 @@ function PostFocus() {
             <MDBCol md="8">
               <MDBCardBody>
                 <MDBCardText>
-                  {location.state.caption}
+                  {caption}
                 </MDBCardText>
                 <MDBCardText>
-                  <small className='text-muted'>datetime</small>
+                  {tags}
+                </MDBCardText>
+                <MDBCardText>
+                  {datetime}
+                </MDBCardText>
+                <MDBCardText>
+                  <small className='text-muted'>{datetime}</small>
                 </MDBCardText>
                   <MDBBtn className="me-2" outline color="dark" style={{ height: '36px', overflow: 'visible' }} onClick={clickLike}>
                   {isLiked ? <MDBIcon fas icon="heart me-2" /> : <MDBIcon far icon="heart me-2" />}Like

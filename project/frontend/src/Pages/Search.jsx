@@ -48,7 +48,7 @@ function Search() {
         <div className="container my-6 d-block">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       {postResult.length === 0 && userResult.length === 0 && <h1>No result found</h1>}
-      {postResult.map((post) => ( <Post title={post.picture_name} postID={post.picture_name} /> ))}
+      {postResult.map((post) => ( <Post props={post} /> ))}
       {userResult.map((user) => ( <User username={user.username} /> ))}
       </div>
       </div>

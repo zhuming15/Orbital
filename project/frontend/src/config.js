@@ -1,3 +1,3 @@
-const BACKEND_URL = "http://localhost:3002";
+const BACKEND_URL = "https://limittest-backend.azurewebsites.net";
 
 export default BACKEND_URL;

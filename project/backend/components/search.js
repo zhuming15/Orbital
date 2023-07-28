@@ -28,7 +28,7 @@ router.get('/api/search-post/:keyword', (req, res) => {
             });
   
             // Execute the UNION query
-            planetscale.query(unionQuery, [keyword], async (err, result) => {
+            planetscale.query(unionQuery, async (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({ error: 'Error executing UNION query:' });
