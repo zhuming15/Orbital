@@ -58,35 +58,43 @@ function PostFocus() {
         })
     };
 
-    const clickLike = async () => {
+    // const clickLike = async () => {
+    //   if (isLiked) {
+    //     await axios.delete(BACKEND_URL + `/api/like/${username}`, {
+    //       pciture_name: postID
+    //     })
+    //       .then((res) => {
+    //         console.log(res);
+    //         console.log("Unlike OK");
+    //         setIsLiked(false);
+    //       })
+    //       .catch(err => {
+    //         console.log(err);
+    //         console.log("Unlike NOT OK");
+    //       })
+    //   } else {
+    //     await axios.post(BACKEND_URL + `/api/like/${username}`, {
+    //       pciture_name: postID
+    //     })
+    //       .then((res) => {
+    //         console.log(res);
+    //         console.log("Like OK");
+    //         setIsLiked(true);
+    //       })
+    //       .catch(err => {
+    //         console.log(err);
+    //         console.log("Like NOT OK");
+    //       })
+    //   }
+    // };
+
+    const clickLike = () => {
       if (isLiked) {
-        await axios.delete(BACKEND_URL + `/api/like/${username}`, {
-          pciture_name: postID
-        })
-          .then((res) => {
-            console.log(res);
-            console.log("Unlike OK");
-            setIsLiked(false);
-          })
-          .catch(err => {
-            console.log(err);
-            console.log("Unlike NOT OK");
-          })
+        setIsLiked(false);
       } else {
-        await axios.post(BACKEND_URL + `/api/like/${username}`, {
-          pciture_name: postID
-        })
-          .then((res) => {
-            console.log(res);
-            console.log("Like OK");
-            setIsLiked(true);
-          })
-          .catch(err => {
-            console.log(err);
-            console.log("Like NOT OK");
-          })
+        setIsLiked(true);
       }
-    };
+    }
 
     const clickSave = async () => {
       setIsSaved(!isSaved);
@@ -110,22 +118,10 @@ return (
                   {tags}
                 </MDBCardText>
                 <MDBCardText>
-                  {datetime}
-                </MDBCardText>
-                <MDBCardText>
                   <small className='text-muted'>{datetime}</small>
                 </MDBCardText>
                   <MDBBtn className="me-2" outline color="dark" style={{ height: '36px', overflow: 'visible' }} onClick={clickLike}>
                   {isLiked ? <MDBIcon fas icon="heart me-2" /> : <MDBIcon far icon="heart me-2" />}Like
-                </MDBBtn>
-                <MDBBtn className="me-2" outline color="dark" style={{ height: '36px', overflow: 'visible' }}>
-                  <MDBIcon far icon="edit me-2" />Edit
-                </MDBBtn>
-                <MDBBtn className="me-2" outline color="dark" style={{ height: '36px', overflow: 'visible' }} onClick={deletePost}>
-                  <MDBIcon far icon="trash-alt me-2" />Delete
-                </MDBBtn>
-                <MDBBtn className="me-2" outline color="dark" style={{ height: '36px', overflow: 'visible' }} onClick={clickSave}>
-                  {isSaved ? <MDBIcon fas icon="star me-2" /> : <MDBIcon far icon="star me-2" />}Save
                 </MDBBtn>
               </MDBCardBody>
             </MDBCol>

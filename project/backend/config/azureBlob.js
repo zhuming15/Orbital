@@ -10,7 +10,7 @@ if (!accountName) return Error('Azure Storage accountName not found');
 const userAssignedUserID = process.env.USER_ASSIGNED_USER_ID;
 const blobServiceClient = new BlobServiceClient(
   `https://${accountName}.blob.core.windows.net`,
-  new DefaultAzureCredential({ ManagedIdentityClientID : userAssignedUserID })
+  new DefaultAzureCredential(userAssignedUserID )
 );
 
 const containerName = process.env.CONTAINER_NAME;

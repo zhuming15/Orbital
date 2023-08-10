@@ -4,7 +4,15 @@ const cors = require('cors');
 const app = express();
 const router = express.Router();
 
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'https://limittest.azurewebsites.net');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//     res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization');
+//     next();
+//   });
+
 app.use(cors());
+  
 app.use(express.json());
 
 const user = require('./components/user');
@@ -33,8 +41,10 @@ app.use(bio);
 app.use(image);
 app.use(changePassword);
 
-app.listen('https://limittest-backend.azurewebsites.net', () => {
-    console.log(`Server is running on https://limittest-backend.azurewebsites.net`);
+const port = process.env.PORT || 3002;
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
 
 module.exports = router;
